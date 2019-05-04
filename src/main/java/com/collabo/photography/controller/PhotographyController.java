@@ -20,7 +20,7 @@ import com.collabo.photography.vo.RequestCommand;
 @RestController
 @RequestMapping("/rest")
 public class PhotographyController {
-	private static final Logger logger = Logger.getLogger(RestController.class);
+	private static final Logger logger = Logger.getLogger(PhotographyController.class);
 
 	@Resource
 	TestDao testDao;

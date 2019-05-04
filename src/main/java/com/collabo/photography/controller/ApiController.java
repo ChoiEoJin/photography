@@ -15,6 +15,7 @@ public class ApiController {
 
 	@RequestMapping(value = "/_api.do")
 	public String api(Locale locale, Model model) {
+		logger.debug("api UI로 이동");
 		return "api";
 	}
 
