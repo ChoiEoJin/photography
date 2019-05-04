@@ -48,8 +48,11 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 //		str[0] = "/rest/ifTest001.do";
 //		setExclude(str);
 		String temp = request.getRequestURL().toString();
+		logger.debug("temp : "+temp);
 		for (int i = 0; i < exclude.length; i++) {
 			String ex = exclude[i];
+			logger.debug("temp : "+temp);
+			logger.debug("ex :"+ex);
 			if (temp.indexOf(ex) > -1) {// ex = /login/
 				return true; // session 체크 안하고 controller에 바로 전달로 전달.
 			}

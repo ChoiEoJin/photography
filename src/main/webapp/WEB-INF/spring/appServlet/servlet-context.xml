@@ -45,7 +45,7 @@
         </mvc:interceptor>
     	<mvc:interceptor>
 			<mvc:mapping path="/**"/>
-			<beans:bean id="sessionInterceptor" class="com.collabo.photography.common.interceptor.LoginInterceptor">
+			<beans:bean id="loginInterceptor" class="com.collabo.photography.common.interceptor.LoginInterceptor">
 				<beans:property name="exclude">
 					<beans:array>
 						<beans:value>/rest/userRegist.do</beans:value>
@@ -70,11 +70,9 @@
 	</beans:bean>
 	
 	<!-- jwt secret key -->
-	<beans:bean id="jwtUtill" class="com.collabo.photography.common.jwt.JwtUtil">
-		<beans:property name="secretKey" value="#{Constants['jwt.secretkey']}">
-<!-- 			<value>${Constants['jwt.secretkey']}</value> -->
-		</beans:property>
-	</beans:bean>
+	<beans:bean id="JwtUtill" class="com.collabo.photography.common.jwt.JwtUtil">
+		<beans:property name="secretKey" value="${jwt.secretkey}"/>
+	</beans:bean> 
 	
 	<context:component-scan base-package="com.collabo.photography" />
 

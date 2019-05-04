@@ -18,7 +18,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.SignatureException;
 import io.jsonwebtoken.UnsupportedJwtException;
 
-@Component
+
 public class JwtUtil {
 
 	private static final Logger log = Logger.getLogger(JwtUtil.class);
