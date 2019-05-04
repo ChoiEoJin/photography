@@ -68,6 +68,14 @@
 			<beans:ref bean="messageSource" />
 		</beans:property> 
 	</beans:bean>
+	
+	<!-- jwt secret key -->
+	<beans:bean id="jwtUtill" class="com.collabo.photography.common.jwt.JwtUtil">
+		<beans:property name="secretKey" value="#{Constants['jwt.secretkey']}">
+<!-- 			<value>${Constants['jwt.secretkey']}</value> -->
+		</beans:property>
+	</beans:bean>
+	
 	<context:component-scan base-package="com.collabo.photography" />
 
 </beans:beans>
