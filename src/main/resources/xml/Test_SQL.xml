@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="com.collabo.photography.mapper.test">
+ 
+ <select id="getTestStr" resultType="string" parameterType="HashMap">
+ select name from T_TEST where idx=1;
+ </select>
+ 
+<select id="getTestMap" resultType="HashMap"  parameterType="HashMap">
+	select idx,name,gender,height,weight from T_TEST where idx=1;
+</select>
+
+ 
+<select id="getTestListMap" resultType="HashMap"  parameterType="HashMap">
+	select idx,name,gender,height,weight from T_TEST;
+</select>
+
+</mapper>

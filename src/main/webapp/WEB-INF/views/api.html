@@ -1,0 +1,156 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+   <!--  <meta charset="UTF-8">-->
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<!--     <meta http-equiv="X-UA-Compatible" content="IE=edge"> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="php-apidoc - apid documenation generator">
+    <meta name="author" content="Calin Rada">
+    <title>ChooseBetter API</title>
+    <link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.css" rel="stylesheet">
+    <style type="text/css">
+        body      { padding-top: 70px; margin-bottom: 15px; }
+        .tab-pane { padding-top: 10px; }
+        .mt0      { margin-top: 0px; }
+        .footer   { font-size: 12px; color: #666; }
+        .label    { display: inline-block; min-width: 65px; padding: 0.3em 0.6em 0.3em; }
+        .string   { color: green; }
+        .number   { color: darkorange; }
+        .boolean  { color: blue; }
+        .null     { color: magenta; }
+        .key      { color: red; }
+
+		h2, .h2	{	font-size: 22px;}
+		hr		{ margin-top:10px; margin-bottom:10px;}
+    </style>
+	<!-- BEGIN CORE PLUGINS -->
+	<script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+	<script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js"></script>
+	<!-- END CORE PLUGINS -->
+  </head>
+  
+  <body>
+    <!-- Fixed navbar -->
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">NEWFROM Function Document</a>
+        </div>
+        <div class="navbar-collapse collapse navbar-right" style="padding-top:15px;padding-bottom:15px;">
+<!--
+        	<span onclick="location.replace('progress.php');" class="label label-danger" style="font-size:14px;cursor:pointer;">
+        		API ê°ë° ì§ì² 
+        	</span>
+//-->
+        	<span onclick="location.replace('index.php');" class="label label-primary" style="font-size:14px;cursor:pointer;">
+        		API
+        	</span>
+<!--
+        	<span onclick="location.replace('error_code.php');" class="label label-primary" style="font-size:14px;cursor:pointer;">
+        		API ìë¬ ì½ë
+        	</span>
+        	<span onclick="location.replace('js_func.php');" class="label label-success" style="font-size:14px;cursor:pointer;">
+        		JS Func
+        	</span>
+        	<span onclick="location.replace('php_func.php');" class="label label-warning" style="font-size:14px;cursor:pointer;">
+        		PHP Func
+        	</span>
+        	<span onclick="location.replace('php_ext_lib.php');" class="label label-danger" style="font-size:14px;cursor:pointer;">
+        		PHP Ext Lib
+        	</span>
+        	<span onclick="location.replace('device_info.php');" class="label label-primary" style="font-size:14px;cursor:pointer;">
+        		Device
+        	</span>
+        	<span onclick="location.replace('security.php');" class="label label-success" style="font-size:14px;cursor:pointer;">
+        		Security
+        	</span>
+//-->
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+    <div class="container" id="container">
+        
+		<div class="row">	        
+	        <div class="row col-md-6">
+		        <div class="row">
+		            <form class="navbar-form navbar-right">
+		                <div class="form-group">
+		                    Api URL<a href="javascript:void(0);" class="tooltipP" data-toggle="tooltip" title="APIìì ì¬ì©í  URLì ìë ¥í©ëë¤."><span class="glyphicon glyphicon-info-sign"></span></a> : 
+		                </div>
+		                <div class="form-group">
+		                    <input type="text" id="apiUrl" class="form-control input-sm" placeholder="Input Your Site URL." value="http://localhost:8080">
+		                </div>
+		            </form>
+		        </div>
+		        <div class="row" style="display:;">
+		            <form class="navbar-form navbar-right">
+		                <div class="form-group">
+		                    SELECT MODE<a href="javascript:void(0);" class="tooltipP" data-toggle="tooltip" title="Select Your Mode! (WEB/Non WEB) "><span class="glyphicon glyphicon-info-sign"></span></a> : 
+		                </div>
+		                <div class="form-group">
+		                    <input type="radio" class="form-control" style="height:15px;" name="mode" id="mode_web" > WEB
+		                </div>
+		                <div class="form-group">
+		                    <input type="radio" class="form-control" style="height:15px;" name="mode" id="mode_nonweb" checked="checked"> Non WEB
+		                </div>
+		            </form>
+		        </div>
+	        </div> 
+	        <div class="row col-md-6">
+		        <div class="row">
+		            <form class="navbar-form navbar-right">
+		                <div class="form-group">
+		                    RX-Consumer-Key<a href="javascript:void(0);" class="tooltipP" data-toggle="tooltip" title="Api key header with api consumer key (key) and api consumer key value (value) "><span class="glyphicon glyphicon-info-sign"></span></a> : 
+		                </div>
+		                <div class="form-group">
+		                    <input type="hidden" id="consumerKey_key" value="RX-Consumer-Key">
+		                    <input type="text" class="form-control input-sm" placeholder="value" id="consumerKey_value" value="tGUEk7dmkX6nybTfmOuYKdZdDUq/XZQBzRJAfsp2Oko=">
+		                </div>
+		            </form>    
+		        </div>
+		        <div class="row">
+		            <form class="navbar-form navbar-right">
+		                <div class="form-group">
+		                    RX-Consumer-Secret<a href="javascript:void(0);" class="tooltipP" data-toggle="tooltip" title="Api key header with api consumer secret code (key) and api consumer secret code value (value) "><span class="glyphicon glyphicon-info-sign"></span></a> : 
+		                </div>
+		                <div class="form-group">
+		                    <input type="hidden" id="consumerSec_key" value="RX-Consumer-Secret">
+		                    <input type="text" class="form-control input-sm" placeholder="value" id="consumerSec_value" value="DPdfBmR5VGjLXyl4RKYm/bexoPTNzBErXAOn3aOuz0w=">
+		                </div>
+		            </form>
+		        </div>
+			</div>
+		</div>	
+        <hr>
+
+
+
+
+<!--
+        <div class="row mt0 footer">
+            <div class="col-md-6" align="left">
+                Generated on 2013-12-05, 21:10:28
+            </div>
+            <div class="col-md-6" align="right">
+                <a href="https://github.com/calinrada/php-apidoc" target="_blank">php-apidoc v 1.3.2</a>
+            </div>
+        </div>
+-->
+
+    </div> <!-- /container -->
+    
+
+<script src="/resources/api/api.js"></script>
+<script src="/resources/api/codeStr.js"></script>
+<script src="/resources/api/index.js"></script>
+<script src="/resources/api/encrypt.js"></script>  
+안녕안녕
+  </body>
+</html>
