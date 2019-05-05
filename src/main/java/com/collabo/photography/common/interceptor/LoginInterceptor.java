@@ -74,16 +74,11 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 		System.out.println("getRequestURL : "+ temp);
 		if(request.getHeader("Authorization")==null) {
 			System.out.println("(request.getHeader(\"Authorization\")==null");
-			return false;
-			//throw new Exception("request.getHeader(\"Authorization\")==null");
+			throw new Exception("request.getHeader(\"Authorization\")==null");			
 		}else {
 			if(!jwt.verification(request.getHeader("Authorization"))) {
 				System.out.println("기간만료된 토큰입니다.");
-				return false;				
-				
-				// 로그인상태에서: 기간만료되면 연장시켜 줄까?? 연장시키면 안튕기니까
-				
-
+				throw new Exception("This token is expired.To keep going, Please keep you receive new token.");		
 			}
 		}
 
