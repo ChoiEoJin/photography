@@ -60,6 +60,13 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 			}
 		}
 		
+		
+		//자동로그인
+		// interceptor에서  로그인 입력화면호출 url을 받게되면,
+		// DEVICE_ID 를가지고, DB조회(DEVICE_ID,AUTO_LOGIN='Y')정보가 있다면, 1.토큰생성 2.사용자메인화면으로 리다이렉트시켜주고,
+		// DB조회(DEVICE_ID,AUTO_LOGIN='Y')정보가 있다면 없다면, return true해서 로그인입력화면창으로 보내야함
+		
+		
 		//검사대상인경우
 //		System.out.println("indexOf: "+ temp.indexOf("/web/"));//?
 
@@ -67,7 +74,8 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 		System.out.println("getRequestURL : "+ temp);
 		if(request.getHeader("Authorization")==null) {
 			System.out.println("(request.getHeader(\"Authorization\")==null");
-			throw new Exception("request.getHeader(\"Authorization\")==null");
+			return false;
+			//throw new Exception("request.getHeader(\"Authorization\")==null");
 		}else {
 			if(!jwt.verification(request.getHeader("Authorization"))) {
 				System.out.println("기간만료된 토큰입니다.");
@@ -75,12 +83,10 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 				
 				// 로그인상태에서: 기간만료되면 연장시켜 줄까?? 연장시키면 안튕기니까
 				
-				// interceptor에서  로그인하는 화면호출 url을 받게되면,
-				// DEVICE_ID 를가지고, DB조회(DEVICE_ID,AUTO_LOGIN='Y')정보가 있다면 로그인처리 return true시켜주고,
-				// DB조회(DEVICE_ID,AUTO_LOGIN='Y')정보가 있다면 없다면, 로그인UI화면 보여줘야함
+
 			}
 		}
 
-		return true;
+		return true;//검증통과하면 가던길 계속가!
 	}
 }
