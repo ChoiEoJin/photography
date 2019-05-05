@@ -52,15 +52,30 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 		for (int i = 0; i < exclude.length; i++) {
 			String ex = exclude[i];
 			logger.debug("temp : "+temp);
+			System.out.println("temp : "+temp);
 			logger.debug("ex :"+ex);
-			if (temp.indexOf(ex) > -1) {// ex = /login/
-				return true; // session 체크 안하고 controller에 바로 전달로 전달.
+			System.out.println("ex :"+ex);
+			if (temp.indexOf(ex) > -1) {//예외 대상이면,
+				return true; // 통과
 			}
 		}
-
-		System.out.println("indexOf:: "+ temp.indexOf("/web/"));
-		if(temp.indexOf("/login.do/")==-1) {
+		
+		//검사대상인경우
+//		System.out.println("indexOf: "+ temp.indexOf("/web/"));//?
+		if(temp.indexOf("/login.do/")>-1) {
 			System.out.println("IF절");
+			if(request.getHeader("Authorization")==null) {
+				System.out.println("(request.getHeader(\"Authorization\")==null");				
+			}else {
+				if(!jwt.verification(request.getHeader("Authorization"))) {
+					System.out.println("기간만료된 토큰입니다.");
+				}
+				
+				
+				
+				
+				
+			}
 //			if(!jwt.verification(request.getHeader("Authorization"))) {
 //				//인증실패했을때 오는 구간
 //				
