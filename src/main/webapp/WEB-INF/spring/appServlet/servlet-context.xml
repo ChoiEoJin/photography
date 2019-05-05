@@ -51,6 +51,7 @@
 						<beans:value>/rest/userRegist.do</beans:value>
 						<beans:value>/rest/userLogin.do</beans:value>
 						<beans:value>/rest/userLogout.do</beans:value>
+						<beans:value>/_api.do</beans:value>						
 					</beans:array>
 				</beans:property>
 			</beans:bean>

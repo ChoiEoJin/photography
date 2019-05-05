@@ -52,9 +52,9 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 		for (int i = 0; i < exclude.length; i++) {
 			String ex = exclude[i];
 			logger.debug("temp : "+temp);
-			System.out.println("temp : "+temp);
+//			System.out.println("temp : "+temp);
 			logger.debug("ex :"+ex);
-			System.out.println("ex :"+ex);
+//			System.out.println("ex :"+ex);
 			if (temp.indexOf(ex) > -1) {//예외 대상이면,
 				return true; // 통과
 			}
@@ -62,30 +62,25 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 		
 		//검사대상인경우
 //		System.out.println("indexOf: "+ temp.indexOf("/web/"));//?
-		if(temp.indexOf("/login.do/")>-1) {
-			System.out.println("IF절");
-			if(request.getHeader("Authorization")==null) {
-				System.out.println("(request.getHeader(\"Authorization\")==null");				
-			}else {
-				if(!jwt.verification(request.getHeader("Authorization"))) {
-					System.out.println("기간만료된 토큰입니다.");
-				}
+
+		System.out.println("JsonWebToken검사가 필요한작업입니다!");
+		System.out.println("getRequestURL : "+ temp);
+		if(request.getHeader("Authorization")==null) {
+			System.out.println("(request.getHeader(\"Authorization\")==null");
+			throw new Exception("request.getHeader(\"Authorization\")==null");
+		}else {
+			if(!jwt.verification(request.getHeader("Authorization"))) {
+				System.out.println("기간만료된 토큰입니다.");
+				return false;				
 				
+				// 로그인상태에서: 기간만료되면 연장시켜 줄까?? 연장시키면 안튕기니까
 				
-				
-				
-				
+				// interceptor에서  로그인하는 화면호출 url을 받게되면,
+				// DEVICE_ID 를가지고, DB조회(DEVICE_ID,AUTO_LOGIN='Y')정보가 있다면 로그인처리 return true시켜주고,
+				// DB조회(DEVICE_ID,AUTO_LOGIN='Y')정보가 있다면 없다면, 로그인UI화면 보여줘야함
 			}
-//			if(!jwt.verification(request.getHeader("Authorization"))) {
-//				//인증실패했을때 오는 구간
-//				
-//				
-//				
-//				
-////				throw new CommonException(messageUtil.getMessage("ERROR.CODE.EXCEPTION_LOGIC"),
-////						messageUtil.getMessage("LOGIN.MSG.REQUIRE_LOGIN"));
-//			}
 		}
+
 		return true;
 	}
 }
