@@ -81,7 +81,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 				//throw new Exception("This token is expired.");		
 			}
 		}
-
+		System.out.println("도착");
 		return true;//검증통과하면 가던길 계속가!
 	}
 }

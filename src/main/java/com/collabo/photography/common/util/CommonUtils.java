@@ -30,7 +30,7 @@ public class CommonUtils {
 		log.debug("------------------------------------------------\n");
 	}
 	
-
+	//result에 맵을담을때
 	public static Map<String,Object> createResultMap (String resultCode,String resultstatus,Map<String,Object> result){
 		
 		Map<String,Object> resultMap = new HashMap<>();
@@ -41,6 +41,7 @@ public class CommonUtils {
 		
 	}
 	
+	//result에 맵리스트를넘길때
 	public static Map<String,Object> createResultMap (String resultCode,String resultstatus,List<Map<String,Object>> result){
 		
 		Map<String,Object> resultMap = new HashMap<>();
@@ -50,6 +51,7 @@ public class CommonUtils {
 		return resultMap;
 	}
 	
+	//result에 문자열담을때
 	public static Map<String,Object> createResultMap (String resultCode,String resultstatus,String result){
 		
 		Map<String,Object> resultMap = new HashMap<>();
@@ -59,6 +61,7 @@ public class CommonUtils {
 		return resultMap;
 	}
 	
+	//result에 int형담을때
 	public static Map<String,Object> createResultMap (String resultCode,String resultstatus,int result){
 		
 		Map<String,Object> resultMap = new HashMap<>();
@@ -68,8 +71,7 @@ public class CommonUtils {
 		return resultMap;
 	}
 	
-
-	
+	//result에 boolean형담을때
 	public static Map<String,Object> createResultMap (String resultCode,String resultstatus,boolean result){
 		
 		Map<String,Object> resultMap = new HashMap<>();

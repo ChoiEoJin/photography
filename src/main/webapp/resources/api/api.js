@@ -119,9 +119,9 @@ var api =
 					}
 				},
 				{
-					"name": "xp",
+					"name": "선택목록가져오기",
 					"label": "warning", 	//success, primary, danger, warning
-					"desc": "asdsad",
+					"desc": "",
 					"progress":{ 
 						"rate":"100",
 						"desc":""
@@ -136,6 +136,86 @@ var api =
 							{
 								"name":"변수명2", "type":"string", "req":"yes", "value":"변수명2",
 								"desc":"변수명2"
+							},
+						],
+						"respParam": [
+						]
+					},
+					"sample": {
+						"desc": "",
+						"resp": '{"retCode": 0,"errMsg": "","retBody": ""}'
+					}
+				},
+				{
+					"name": "내결과가져오기",
+					"label": "warning", 	//success, primary, danger, warning
+					"desc": "",
+					"progress":{ 
+						"rate":"100",
+						"desc":""
+					},
+					"info": {
+						"url": "/rest/getMyResult.do",
+						"reqParam": [
+							{
+								"name":"변수명1", "type":"string", "req":"yes", "value":"변수명1",
+								"desc":"변수명1"
+							},
+							{
+								"name":"변수명2", "type":"string", "req":"yes", "value":"변수명2",
+								"desc":"변수명2"
+							},
+						],
+						"respParam": [
+						]
+					},
+					"sample": {
+						"desc": "",
+						"resp": '{"retCode": 0,"errMsg": "","retBody": ""}'
+					}
+				},
+				{
+					"name": "암호화테스트",
+					"label": "warning", 	//success, primary, danger, warning
+					"desc": "",
+					"progress":{ 
+						"rate":"100",
+						"desc":""
+					},
+					"info": {
+						"url": "/rest/encryptTest.do",
+						"reqParam": [
+							{
+								"name":"변수명1", "type":"string", "req":"yes", "value":"변수명1",
+								"desc":"변수명1"
+							},
+							{
+								"name":"변수명2", "type":"string", "req":"yes", "value":"변수명2",
+								"desc":"변수명2"
+							},
+						],
+						"respParam": [
+						]
+					},
+					"sample": {
+						"desc": "",
+						"resp": '{"retCode": 0,"errMsg": "","retBody": ""}'
+					}
+				},
+				{//리턴맵테스트
+					"name": "returnMap.do",
+					"label": "warning", 	//success, primary, danger, warning
+					"desc": "returnMap",
+					"progress":{ 
+						"rate":"100",
+						"desc":""
+					},
+					"info": {
+						"url": "/rest/returnMap.do",
+						"reqParam": [
+							{
+								"name":"var1", "type":"string", "req":"yes", "value":"hello!!",
+								"desc":"var1"
 							},
 						],
 						"respParam": [

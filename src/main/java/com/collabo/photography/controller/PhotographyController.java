@@ -324,11 +324,91 @@ public class PhotographyController {
 		Map<String, Object> param = reqParam.getParameterMap();
 		String resultCode ="0";
 		String resultstatus  ="";
+			System.out.println("getMyResult");
+		try {
+			List<Map<String,Object>> list = new ArrayList<>();
+			
+			System.out.println("list : "+list);
+			System.out.println("list.size()"+list.size());
+			System.out.println("list.isEmpty() : "+list.isEmpty());
+			
+			resultMap= CommonUtils.createResultMap("200", "success", list);	
+		} catch(Exception e) {
+			String messageFlag= "";
+			String message="";
+			messageFlag= e.getMessage();
+			if(messageFlag.equals("500")) {
+				
+			}else if(messageFlag.equals("501")) {
+				
+			}else {
+				
+			}
+			
+			e.printStackTrace();
+			resultMap= CommonUtils.createResultMap(resultCode, resultstatus, message);
+			
+		}
+	
+	
+		String rst = new Gson().toJson(resultMap);
+		
+		return rst;
+	}
+	
+	//7.내 결과보기?
+	@RequestMapping(value = "/returnMap.do", method = RequestMethod.POST, produces = "application/text; charset=utf8" )
+	public String returnMap(RequestCommand reqParam, HttpSession session) {
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		Map<String, Object> param = reqParam.getParameterMap();
+		String resultCode ="0";
+		String resultstatus  ="";
+			System.out.println("getMyResult");
+		try {
+			List<Map<String,Object>> list = new ArrayList<>();
+			
+			System.out.println("list : "+list);
+			System.out.println("list.size()"+list.size());
+			System.out.println("list.isEmpty() : "+list.isEmpty());
+			
+			resultMap= CommonUtils.createResultMap("200", "success", list);	
+		} catch(Exception e) {
+			String messageFlag= "";
+			String message="";
+			messageFlag= e.getMessage();
+			if(messageFlag.equals("500")) {
+				
+			}else if(messageFlag.equals("501")) {
+				
+			}else {
+				
+			}
+			
+			e.printStackTrace();
+			resultMap= CommonUtils.createResultMap(resultCode, resultstatus, message);
+			
+		}
+	
+	
+		String rst = new Gson().toJson(resultMap);
+		
+		return rst;
+	}
+	
+	//암호화
+	@RequestMapping(value = "/encryptTest.do", method = RequestMethod.POST, produces = "application/text; charset=utf8" )
+	public String encryptTest(RequestCommand reqParam, HttpSession session) {
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		Map<String, Object> param = reqParam.getParameterMap();
+		String resultCode ="0";
+		String resultstatus  ="";
 		
 		try {
 			
+			//변수받는부분
+			System.out.println(param.get("var1").toString());
 			
-			
+			//암호화하기
 			
 			
 			
