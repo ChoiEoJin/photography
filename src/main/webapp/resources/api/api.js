@@ -1,3 +1,4 @@
+﻿//encodingStatus=utf-8
 var api = 
 {	/*** for chat *****/
 	"cls": [
@@ -9,7 +10,7 @@ var api =
 				{
 					"name": "회원가입",
 					"label": "warning", 	//success, primary, danger, warning
-					"desc": "회원가입",
+					"desc": "/rest/userRegist.do",
 					"progress":{ 
 						"rate":"100",
 						"desc":""
@@ -37,7 +38,7 @@ var api =
 				{
 					"name": "로그인",
 					"label": "warning", 	//success, primary, danger, warning
-					"desc": "로그인",
+					"desc": "/rest/userLogin.do",
 					"progress":{ 
 						"rate":"100",
 						"desc":""
@@ -65,7 +66,7 @@ var api =
 				{
 					"name": "로그아웃",
 					"label": "warning", 	//success, primary, danger, warning
-					"desc": "로그아웃",
+					"desc": "/rest/userLogout.do",
 					"progress":{ 
 						"rate":"100",
 						"desc":""
@@ -93,10 +94,10 @@ var api =
 				{
 					"name": "메인화면데이터요청",
 					"label": "warning", 	//success, primary, danger, warning
-					"desc": "메인화면데이터요청",
+					"desc": "/rest/getMainData.do",
 					"progress":{ 
 						"rate":"100",
-						"desc":""
+						"desc":"/rest/getMainData.do"
 					},
 					"info": {
 						"url": "/rest/getMainData.do",
@@ -121,7 +122,7 @@ var api =
 				{
 					"name": "선택목록가져오기",
 					"label": "warning", 	//success, primary, danger, warning
-					"desc": "",
+					"desc": "/rest/getChooseList.do",
 					"progress":{ 
 						"rate":"100",
 						"desc":""
@@ -147,9 +148,37 @@ var api =
 					}
 				},
 				{
+					"name": "나의데이터가져오기",
+					"label": "warning", 	//success, primary, danger, warning
+					"desc": "/rest/getMyData.do",
+					"progress":{ 
+						"rate":"100",
+						"desc":""
+					},
+					"info": {
+						"url": "/rest/getMyData.do",
+						"reqParam": [
+							{
+								"name":"변수명1", "type":"string", "req":"yes", "value":"변수명1",
+								"desc":"변수명1"
+							},
+							{
+								"name":"변수명2", "type":"string", "req":"yes", "value":"변수명2",
+								"desc":"변수명2"
+							},
+						],
+						"respParam": [
+						]
+					},
+					"sample": {
+						"desc": "",
+						"resp": '{"retCode": 0,"errMsg": "","retBody": ""}'
+					}
+				},
+				{
 					"name": "내결과가져오기",
 					"label": "warning", 	//success, primary, danger, warning
-					"desc": "",
+					"desc": "/rest/getMyResult.do",
 					"progress":{ 
 						"rate":"100",
 						"desc":""
@@ -177,7 +206,7 @@ var api =
 				{
 					"name": "암호화테스트",
 					"label": "warning", 	//success, primary, danger, warning
-					"desc": "",
+					"desc": "/rest/encryptTest.do",
 					"progress":{ 
 						"rate":"100",
 						"desc":""
@@ -205,7 +234,7 @@ var api =
 				{//리턴맵테스트
 					"name": "returnMap.do",
 					"label": "warning", 	//success, primary, danger, warning
-					"desc": "returnMap",
+					"desc": "/rest/returnMap.do",
 					"progress":{ 
 						"rate":"100",
 						"desc":""

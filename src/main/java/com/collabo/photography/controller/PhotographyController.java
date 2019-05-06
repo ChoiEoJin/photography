@@ -328,9 +328,7 @@ public class PhotographyController {
 		try {
 			List<Map<String,Object>> list = new ArrayList<>();
 			
-			System.out.println("list : "+list);
-			System.out.println("list.size()"+list.size());
-			System.out.println("list.isEmpty() : "+list.isEmpty());
+
 			
 			resultMap= CommonUtils.createResultMap("200", "success", list);	
 		} catch(Exception e) {
@@ -356,7 +354,7 @@ public class PhotographyController {
 		return rst;
 	}
 	
-	//7.내 결과보기?
+	//8.리턴맵테스트
 	@RequestMapping(value = "/returnMap.do", method = RequestMethod.POST, produces = "application/text; charset=utf8" )
 	public String returnMap(RequestCommand reqParam, HttpSession session) {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
