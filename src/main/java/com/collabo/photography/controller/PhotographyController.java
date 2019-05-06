@@ -8,12 +8,14 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.google.gson.Gson;
+import com.collabo.photography.common.util.CommonUtils;
 import com.collabo.photography.dao.TestDao;
 import com.collabo.photography.vo.RequestCommand;
 
@@ -22,22 +24,19 @@ import com.collabo.photography.vo.RequestCommand;
 public class PhotographyController {
 	private static final Logger logger = Logger.getLogger(PhotographyController.class);
 
+	
 	@Resource
 	TestDao testDao;
 	
 	//1.회원가입요청
 	@RequestMapping(value = "/userRegist.do", method = RequestMethod.POST, produces = "application/text; charset=utf8" )
 	public String userRegist(RequestCommand reqParam, HttpSession session) {
-		Map<String, Object> result = new HashMap<String, Object>();
-		Map<String, Object> header= new HashMap<String, Object>();
-		Map<String, Object> body= new HashMap<String, Object>();
+		Map<String, Object> resultMap = new HashMap<String, Object>();
 		Map<String, Object> param = reqParam.getParameterMap();
-		
-		header.put("retCode", 0);
-		header.put("errMsg", "");
+		String resultCode ="0";
+		String resultstatus  ="";
 		
 		try {
-
 			
 			
 			
@@ -50,17 +49,29 @@ public class PhotographyController {
 			
 			
 			
+			
+			
+			
+			resultMap= CommonUtils.createResultMap("200", "success", "");	
 		} catch(Exception e) {
-			logger.error(e.getMessage());
+			String messageFlag= "";
+			String message="";
+			messageFlag= e.getMessage();
+			if(messageFlag.equals("500")) {
+				
+			}else if(messageFlag.equals("501")) {
+				
+			}else {
+				
+			}
+			
 			e.printStackTrace();
-			header.put("retCode", 404);
-			header.put("errMsg", "error");
+			resultMap= CommonUtils.createResultMap(resultCode, resultstatus, message);
+			
 		}
-		
-		result.put("header", header);
-		result.put("body", body);
-		
-		String rst = new Gson().toJson(result);
+	
+	
+		String rst = new Gson().toJson(resultMap);
 		
 		return rst;
 	}
@@ -68,16 +79,12 @@ public class PhotographyController {
 	//2.로그인요청
 	@RequestMapping(value = "/userLogin.do", method = RequestMethod.POST, produces = "application/text; charset=utf8" )
 	public String userLogin(RequestCommand reqParam, HttpSession session) {
-		Map<String, Object> result = new HashMap<String, Object>();
-		Map<String, Object> header= new HashMap<String, Object>();
-		Map<String, Object> body= new HashMap<String, Object>();
+		Map<String, Object> resultMap = new HashMap<String, Object>();
 		Map<String, Object> param = reqParam.getParameterMap();
-		
-		header.put("retCode", 0);
-		header.put("errMsg", "");
+		String resultCode ="0";
+		String resultstatus  ="";
 		
 		try {
-
 			
 			
 			
@@ -91,17 +98,28 @@ public class PhotographyController {
 			
 			
 			
+			
+			
+			resultMap= CommonUtils.createResultMap("200", "success", "");	
 		} catch(Exception e) {
-			logger.error(e.getMessage());
+			String messageFlag= "";
+			String message="";
+			messageFlag= e.getMessage();
+			if(messageFlag.equals("500")) {
+				
+			}else if(messageFlag.equals("501")) {
+				
+			}else {
+				
+			}
+			
 			e.printStackTrace();
-			header.put("retCode", 404);
-			header.put("errMsg", "error");
+			resultMap= CommonUtils.createResultMap(resultCode, resultstatus, message);
+			
 		}
-		
-		result.put("header", header);
-		result.put("body", body);
-		
-		String rst = new Gson().toJson(result);
+	
+	
+		String rst = new Gson().toJson(resultMap);
 		
 		return rst;
 	}
@@ -109,32 +127,47 @@ public class PhotographyController {
 	//3.로그아웃 요청 
 	@RequestMapping(value = "/userLogout.do", method = RequestMethod.POST, produces = "application/text; charset=utf8" )
 	public String userLogout(RequestCommand reqParam, HttpSession session) {
-		Map<String, Object> result = new HashMap<String, Object>();
-		Map<String, Object> header= new HashMap<String, Object>();
-		Map<String, Object> body= new HashMap<String, Object>();
+		Map<String, Object> resultMap = new HashMap<String, Object>();
 		Map<String, Object> param = reqParam.getParameterMap();
-		
-		header.put("retCode", 0);
-		header.put("errMsg", "");
+		String resultCode ="0";
+		String resultstatus  ="";
 		
 		try {
-
 			
 			
 			
 			
 			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			resultMap= CommonUtils.createResultMap("200", "success", "");	
 		} catch(Exception e) {
-			logger.error(e.getMessage());
+			String messageFlag= "";
+			String message="";
+			messageFlag= e.getMessage();
+			if(messageFlag.equals("500")) {
+				
+			}else if(messageFlag.equals("501")) {
+				
+			}else {
+				
+			}
+			
 			e.printStackTrace();
-			header.put("retCode", 404);
-			header.put("errMsg", "error");
+			resultMap= CommonUtils.createResultMap(resultCode, resultstatus, message);
+			
 		}
-		
-		result.put("header", header);
-		result.put("body", body);
-		
-		String rst = new Gson().toJson(result);
+	
+	
+		String rst = new Gson().toJson(resultMap);
 		
 		return rst;
 	}
@@ -142,33 +175,47 @@ public class PhotographyController {
 	//4.메인화면데이터요청 
 	@RequestMapping(value = "/getMainData.do", method = RequestMethod.POST, produces = "application/text; charset=utf8" )
 	public String getMainData(RequestCommand reqParam, HttpSession session) {
-		Map<String, Object> result = new HashMap<String, Object>();
-		Map<String, Object> header= new HashMap<String, Object>();
-		Map<String, Object> body= new HashMap<String, Object>();
+		Map<String, Object> resultMap = new HashMap<String, Object>();
 		Map<String, Object> param = reqParam.getParameterMap();
-		
-		header.put("retCode", 0);
-		header.put("errMsg", "");
+		String resultCode ="0";
+		String resultstatus  ="";
 		
 		try {
-
 			
 			
 			
 			
 			
 			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			resultMap= CommonUtils.createResultMap("200", "success", "");	
 		} catch(Exception e) {
-			logger.error(e.getMessage());
+			String messageFlag= "";
+			String message="";
+			messageFlag= e.getMessage();
+			if(messageFlag.equals("500")) {
+				
+			}else if(messageFlag.equals("501")) {
+				
+			}else {
+				
+			}
+			
 			e.printStackTrace();
-			header.put("retCode", 404);
-			header.put("errMsg", "error");
+			resultMap= CommonUtils.createResultMap(resultCode, resultstatus, message);
+			
 		}
-		
-		result.put("header", header);
-		result.put("body", body);
-		
-		String rst = new Gson().toJson(result);
+	
+	
+		String rst = new Gson().toJson(resultMap);
 		
 		return rst;
 	}
@@ -176,33 +223,47 @@ public class PhotographyController {
 	//5.골라줘 리스트 (미완상태의 골라줘 리스트) 요청 
 	@RequestMapping(value = "/getChooseList.do", method = RequestMethod.POST, produces = "application/text; charset=utf8" )
 	public String getChooseList(RequestCommand reqParam, HttpSession session) {
-		Map<String, Object> result = new HashMap<String, Object>();
-		Map<String, Object> header= new HashMap<String, Object>();
-		Map<String, Object> body= new HashMap<String, Object>();
+		Map<String, Object> resultMap = new HashMap<String, Object>();
 		Map<String, Object> param = reqParam.getParameterMap();
-		
-		header.put("retCode", 0);
-		header.put("errMsg", "");
+		String resultCode ="0";
+		String resultstatus  ="";
 		
 		try {
-
 			
 			
 			
 			
 			
 			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			resultMap= CommonUtils.createResultMap("200", "success", "");	
 		} catch(Exception e) {
-			logger.error(e.getMessage());
+			String messageFlag= "";
+			String message="";
+			messageFlag= e.getMessage();
+			if(messageFlag.equals("500")) {
+				
+			}else if(messageFlag.equals("501")) {
+				
+			}else {
+				
+			}
+			
 			e.printStackTrace();
-			header.put("retCode", 404);
-			header.put("errMsg", "error");
+			resultMap= CommonUtils.createResultMap(resultCode, resultstatus, message);
+			
 		}
-		
-		result.put("header", header);
-		result.put("body", body);
-		
-		String rst = new Gson().toJson(result);
+	
+	
+		String rst = new Gson().toJson(resultMap);
 		
 		return rst;
 	}
@@ -210,30 +271,47 @@ public class PhotographyController {
 	//6.마이데이타 ?
 	@RequestMapping(value = "/getMyData.do", method = RequestMethod.POST, produces = "application/text; charset=utf8" )
 	public String getMyData(RequestCommand reqParam, HttpSession session) {
-		Map<String, Object> result = new HashMap<String, Object>();
-		Map<String, Object> header= new HashMap<String, Object>();
-		Map<String, Object> body= new HashMap<String, Object>();
+		Map<String, Object> resultMap = new HashMap<String, Object>();
 		Map<String, Object> param = reqParam.getParameterMap();
-		
-		header.put("retCode", 0);
-		header.put("errMsg", "");
+		String resultCode ="0";
+		String resultstatus  ="";
 		
 		try {
-
 			
 			
 			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			resultMap= CommonUtils.createResultMap("200", "success", "");	
 		} catch(Exception e) {
-			logger.error(e.getMessage());
+			String messageFlag= "";
+			String message="";
+			messageFlag= e.getMessage();
+			if(messageFlag.equals("500")) {
+				
+			}else if(messageFlag.equals("501")) {
+				
+			}else {
+				
+			}
+			
 			e.printStackTrace();
-			header.put("retCode", 404);
-			header.put("errMsg", "error");
+			resultMap= CommonUtils.createResultMap(resultCode, resultstatus, message);
+			
 		}
-		
-		result.put("header", header);
-		result.put("body", body);
-		
-		String rst = new Gson().toJson(result);
+	
+	
+		String rst = new Gson().toJson(resultMap);
 		
 		return rst;
 	}
@@ -242,33 +320,47 @@ public class PhotographyController {
 	//7.내 결과보기?
 	@RequestMapping(value = "/getMyResult.do", method = RequestMethod.POST, produces = "application/text; charset=utf8" )
 	public String getMyResult(RequestCommand reqParam, HttpSession session) {
-		Map<String, Object> result = new HashMap<String, Object>();
-		Map<String, Object> header= new HashMap<String, Object>();
-		Map<String, Object> body= new HashMap<String, Object>();
+		Map<String, Object> resultMap = new HashMap<String, Object>();
 		Map<String, Object> param = reqParam.getParameterMap();
-		
-		header.put("retCode", 0);
-		header.put("errMsg", "");
+		String resultCode ="0";
+		String resultstatus  ="";
 		
 		try {
-
 			
 			
 			
 			
 			
 			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			resultMap= CommonUtils.createResultMap("200", "success", "");	
 		} catch(Exception e) {
-			logger.error(e.getMessage());
+			String messageFlag= "";
+			String message="";
+			messageFlag= e.getMessage();
+			if(messageFlag.equals("500")) {
+				
+			}else if(messageFlag.equals("501")) {
+				
+			}else {
+				
+			}
+			
 			e.printStackTrace();
-			header.put("retCode", 404);
-			header.put("errMsg", "error");
+			resultMap= CommonUtils.createResultMap(resultCode, resultstatus, message);
+			
 		}
-		
-		result.put("header", header);
-		result.put("body", body);
-		
-		String rst = new Gson().toJson(result);
+	
+	
+		String rst = new Gson().toJson(resultMap);
 		
 		return rst;
 	}

@@ -1,6 +1,8 @@
 package com.collabo.photography.common.util;
 
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.Map.Entry;
@@ -26,6 +28,55 @@ public class CommonUtils {
 		}
 		log.debug("");
 		log.debug("------------------------------------------------\n");
+	}
+	
+
+	public static Map<String,Object> createResultMap (String resultCode,String resultstatus,Map<String,Object> result){
+		
+		Map<String,Object> resultMap = new HashMap<>();
+		resultMap.put("resultCode", resultCode);
+		resultMap.put("resultstatus", resultstatus);
+		resultMap.put("result", result);
+		return resultMap;
+		
+	}
+	
+	public static Map<String,Object> createResultMap (String resultCode,String resultstatus,List<Map<String,Object>> result){
+		
+		Map<String,Object> resultMap = new HashMap<>();
+		resultMap.put("resultCode", resultCode);
+		resultMap.put("resultstatus", resultstatus);
+		resultMap.put("result", result);
+		return resultMap;
+	}
+	
+	public static Map<String,Object> createResultMap (String resultCode,String resultstatus,String result){
+		
+		Map<String,Object> resultMap = new HashMap<>();
+		resultMap.put("resultCode", resultCode);
+		resultMap.put("resultstatus", resultstatus);
+		resultMap.put("result", result);
+		return resultMap;
+	}
+	
+	public static Map<String,Object> createResultMap (String resultCode,String resultstatus,int result){
+		
+		Map<String,Object> resultMap = new HashMap<>();
+		resultMap.put("resultCode", resultCode);
+		resultMap.put("resultstatus", resultstatus);
+		resultMap.put("result", result);
+		return resultMap;
+	}
+	
+
+	
+	public static Map<String,Object> createResultMap (String resultCode,String resultstatus,boolean result){
+		
+		Map<String,Object> resultMap = new HashMap<>();
+		resultMap.put("resultCode", resultCode);
+		resultMap.put("resultstatus", resultstatus);
+		resultMap.put("result", result);
+		return resultMap;
 	}
 }
 

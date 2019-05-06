@@ -39,7 +39,7 @@ public class JwtUtil {
 	    log.debug(paramMap.get("usr_nm"));
 		String jwt = Jwts.builder()
 				  .setHeaderParam("type","JWT")
-				  .setSubject("AirToken")
+				  .setSubject("ChooseBetter")
 				  .setExpiration(exp)
 				  .claim("usr_id", paramMap.get("usr_id"))
 				  .claim("usr_nm", paramMap.get("usr_nm"))
