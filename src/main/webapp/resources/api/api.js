@@ -9,7 +9,7 @@ var api =
 			"method": [
 				{
 					"name": "회원가입",
-					"label": "warning", 	//success, primary, danger, warning
+					"label": "success", 	//success, primary, danger, warning
 					"desc": "/rest/userRegist.do",
 					"progress":{ 
 						"rate":"100",
@@ -49,7 +49,7 @@ var api =
 				},
 				{
 					"name": "이메일중복체크",
-					"label": "warning", 	//success, primary, danger, warning
+					"label": "success", 	//success, primary, danger, warning
 					"desc": "/rest/emailDuplicatedCheck.do",
 					"progress":{ 
 						"rate":"100",
@@ -81,7 +81,7 @@ var api =
 				},
 				{
 					"name": "이메일인증요청",
-					"label": "warning", 	//success, primary, danger, warning
+					"label": "success", 	//success, primary, danger, warning
 					"desc": "/rest/emailAuthRequest.do",
 					"progress":{ 
 						"rate":"100",
@@ -97,6 +97,42 @@ var api =
 							{
 								"name":"email", "type":"string", "req":"yes", "value":"yms3684@naver.com",
 								"desc":"이메일"
+							}
+						],
+						"respParam": [
+							{
+								"name":"result", "type":"string",
+								"desc":""
+							},
+						]
+					},
+					"sample": {
+						"desc": "",
+						"resp": '{"retCode": 0,"errMsg": "","retBody": ""}'
+					}
+				},
+				{
+					"name": "이메일인증",
+					"label": "success", 	//success, primary, danger, warning
+					"desc": "/rest/emailAuth.do",
+					"progress":{ 
+						"rate":"100",
+						"desc":""
+					},
+					"info": {
+						"url": "/rest/emailAuth.do",
+						"reqParam": [
+							{
+								"name":"uuid", "type":"string", "req":"yes", "value":"chldjwlsuuid",
+								"desc":"기기ID"
+							},
+							{
+								"name":"email", "type":"string", "req":"yes", "value":"yms3684@naver.com",
+								"desc":"이메일"
+							},
+							{
+								"name":"authNum", "type":"string", "req":"yes", "value":"",
+								"desc":"인증번호"
 							}
 						],
 						"respParam": [

@@ -223,10 +223,8 @@ public class PhotographyController {
 				rstMap.put("uuid", uuid);
 				rstMap.put("authNum", tempKey);
 				rstMap.put("uuid", uuid);
-				rstMap.put("authExpired",System.currentTimeMillis()+60*10);
-				rstMap.put("created",System.currentTimeMillis()+60*10);
-				rstMap.put("createdBy",email);
-				rstMap.put("updated",System.currentTimeMillis()+60*10);
+				rstMap.put("authExpired",System.currentTimeMillis()+60*10*1000);
+				rstMap.put("updated",System.currentTimeMillis());
 				rstMap.put("updatedBy",email);
 				rstMap.put("authPK",rstMap.get("AUTH_PK"));
 				
@@ -259,7 +257,62 @@ public class PhotographyController {
 		return rst;
 	}
 	
+	//이메일인증
+	@RequestMapping(value = "/emailAuth.do", method = RequestMethod.POST, produces = "application/text; charset=utf8" )
+	public String emailAuth(RequestCommand reqParam, HttpSession session) {
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		Map<String, Object> param = reqParam.getParameterMap();
+		String resultCode ="0";
+		String resultstatus  ="";		
+		try {
+			String uuid = param.get("uuid").toString();
+			String email = param.get("email").toString();
+			String p_authNum = param.get("authNum").toString();
+			String rstFlag="";
+			
+			//1.UUID랑 USER_EMAIL 을 이용하여 AUTH_NUM,UPDATED,AUTH_EXPIRED를 가져온다.
+			Map<String,Object> authParamMap = new HashMap<>();
+			authParamMap.put("uuid", uuid);
+			authParamMap.put("email", email);
+			
+			//2.AUTH_NUM 과 p_AUTH_NUM을 비교해서 일치하는지여부 -> 일치하지않는경우 611코드리턴
+			Map<String,Object> authRstMap = authService.getAuthInfoByUUID_EMAIL(authParamMap);
+			String db_AuthNum = authRstMap.get("AUTH_NUM").toString();
+			
+			if(p_authNum.equals(db_AuthNum)==false) {
+				System.out.println("인증번호불일치");
+				rstFlag = "611";
+			}else {
+				long authExpired = Long.parseLong(authRstMap.get("AUTH_EXPIRED").toString());
+				long curTimeMill = System.currentTimeMillis();
+				
+				if(authExpired<curTimeMill) {
+					System.out.println("유효기간만료");
+					rstFlag = "612";
+				}else {
+					System.out.println("인증성공");
+					rstFlag = "610";
+				}
+			}			
+			resultMap= CommonUtils.createResultMap("200", "success",rstFlag);	
+		} catch(Exception e) {
+			String messageFlag= "";
+			String message="";
+			messageFlag= e.getMessage();
+			if(messageFlag.equals("500")) {
+				
+			}else if(messageFlag.equals("501")) {
+				
+			}else {
+				
+			}		
+			e.printStackTrace();
+			resultMap= CommonUtils.createResultMap(resultCode, resultstatus, message);	
+		}
 	
+		String rst = new Gson().toJson(resultMap);	
+		return rst;
+	}
 	
 	
 	//2.로그인요청

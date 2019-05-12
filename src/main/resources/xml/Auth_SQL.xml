@@ -34,10 +34,15 @@ update TB_AUTH
 set 
 AUTH_NUM=#{authNum},
 AUTH_EXPIRED=#{authExpired},
-CREATED_BY=#{createdBy},
-CREATED = #{created},
 UPDATED_BY=#{updatedBy},
 UPDATED=#{updated}
 where AUTH_PK=#{authPK}
 </update>
+
+<select id="getAuthInfoByUUID_EMAIL" parameterType="HashMap" resultType="HashMap">
+select * 
+from TB_AUTH
+where UUID=#{uuid}
+  
+</select>
 </mapper>
