@@ -138,7 +138,7 @@ var api =
 						"respParam": [
 							{
 								"name":"result", "type":"string",
-								"desc":""
+								"desc":"610:인증성공, 611:인증번호불일치 , 612:인증시간만료"
 							},
 						]
 					},
