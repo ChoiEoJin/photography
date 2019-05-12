@@ -68,6 +68,42 @@ var api =
 							}
 						],
 						"respParam": [
+							{
+								"name":"result", "type":"string",
+								"desc":"601:레코드없음,602:다른기기에서 사용중, 603:현재기기에서 사용중"
+							},
+						]
+					},
+					"sample": {
+						"desc": "",
+						"resp": '{"retCode": 0,"errMsg": "","retBody": ""}'
+					}
+				},
+				{
+					"name": "이메일인증요청",
+					"label": "warning", 	//success, primary, danger, warning
+					"desc": "/rest/emailAuthRequest.do",
+					"progress":{ 
+						"rate":"100",
+						"desc":""
+					},
+					"info": {
+						"url": "/rest/emailAuthRequest.do",
+						"reqParam": [
+							{
+								"name":"uuid", "type":"string", "req":"yes", "value":"chldjwlsuuid",
+								"desc":"기기ID"
+							},
+							{
+								"name":"email", "type":"string", "req":"yes", "value":"yms3684@naver.com",
+								"desc":"이메일"
+							}
+						],
+						"respParam": [
+							{
+								"name":"result", "type":"string",
+								"desc":""
+							},
 						]
 					},
 					"sample": {
@@ -96,6 +132,10 @@ var api =
 							},
 						],
 						"respParam": [
+							{
+								"name":"result", "type":"string",
+								"desc":"601:레코드없음,602:다른기기에서 사용중, 603:현재기기에서 사용중"
+							},
 						]
 					},
 					"sample": {

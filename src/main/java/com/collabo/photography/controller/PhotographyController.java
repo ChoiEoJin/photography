@@ -1,6 +1,7 @@
 package com.collabo.photography.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,11 +11,14 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.collabo.photography.common.util.AuthUtil;
 import com.collabo.photography.common.util.CommonUtils;
+import com.collabo.photography.common.util.SendMail;
 import com.collabo.photography.dao.TestDao;
 import com.collabo.photography.service.mapper.AuthMapper;
 import com.collabo.photography.service.mapper.UserMapper;
@@ -30,12 +34,16 @@ public class PhotographyController {
 	@Resource
 	TestDao testDao;
 	
-//	@Inject
-//	private AuthMapper authService;
+	@Inject
+	private AuthMapper authService;
 	
 	@Inject
 	private UserMapper userService;
 	
+	@Autowired
+	private AuthUtil authUtil;
+	
+
 	//1.회원가입요청
 	@RequestMapping(value = "/userRegist.do", method = RequestMethod.POST, produces = "application/text; charset=utf8" )
 	public String userRegist(RequestCommand reqParam, HttpSession session) {
@@ -66,6 +74,11 @@ public class PhotographyController {
 			regUserMap.put("gender", gender);
 			regUserMap.put("birth", birth);
 			regUserMap.put("grade", grade);
+			
+			
+			regUserMap.put("created",System.currentTimeMillis());
+			regUserMap.put("updated",System.currentTimeMillis());
+			
 			userService.registerUserInfo(regUserMap);
 			USER_NO = regUserMap.get("USER_NO").toString();
 			System.out.println("USER_NO : "+ USER_NO);
@@ -158,45 +171,73 @@ public class PhotographyController {
 		return rst;
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	//2.로그인요청
-	@RequestMapping(value = "/userLogin.do", method = RequestMethod.POST, produces = "application/text; charset=utf8" )
-	public String userLogin(RequestCommand reqParam, HttpSession session) {
+	//인증요청메소드
+	@RequestMapping(value = "/emailAuthRequest.do", method = RequestMethod.POST, produces = "application/text; charset=utf8" )
+	public String emailAuthRequest(RequestCommand reqParam, HttpSession session) {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		Map<String, Object> param = reqParam.getParameterMap();
 		String resultCode ="0";
-		String resultstatus  ="";
-		
+		String resultstatus  ="";		
 		try {
+			String uuid = "";
+			String email="";
+			
+			uuid= param.get("uuid").toString();
+			email= param.get("email").toString();
+			
+			System.out.println("uuid : "+uuid);
+			System.out.println("email : "+email);
+			
+			//1.인증키생성
+			String tempKey = authUtil.generateKey(8);
+			System.out.println("authKey:"+tempKey);
+			
+			//2.uuid,email로 tb_auth 를 조회해서,
+			Map<String,Object> searchAuthMap =  new HashMap<>();
+			searchAuthMap.put("uuid",uuid);
+			
+			System.out.println(authService.getAuthPK_BY_UUID(searchAuthMap));
+
+				
+			
+			if(authService.getAuthPK_BY_UUID(searchAuthMap)==null) {
+				Map<String,Object> rstMap = new HashMap<>();
+				rstMap.put("uuid", uuid);
+				rstMap.put("authNum", tempKey);
+				rstMap.put("uuid", uuid);
+				rstMap.put("authExpired",System.currentTimeMillis()+60*10);
+				rstMap.put("created",System.currentTimeMillis()+60*10);
+				rstMap.put("createdBy",email);
+				rstMap.put("updated",System.currentTimeMillis()+60*10);
+				rstMap.put("updatedBy",email);
+				
+				
+				//(i)정보가없으면 insert
+				System.out.println("AUTH테이블에 기존데이터없음 ");
+				int insertCnt = authService.insertAuthInfo(rstMap);
+				if(insertCnt==0) {
+					throw new Exception("");
+				}
+			}else {
+				Map<String,Object> rstMap = authService.getAuthPK_BY_UUID(searchAuthMap);
+				rstMap.put("uuid", uuid);
+				rstMap.put("authNum", tempKey);
+				rstMap.put("uuid", uuid);
+				rstMap.put("authExpired",System.currentTimeMillis()+60*10);
+				rstMap.put("created",System.currentTimeMillis()+60*10);
+				rstMap.put("createdBy",email);
+				rstMap.put("updated",System.currentTimeMillis()+60*10);
+				rstMap.put("updatedBy",email);
+				rstMap.put("authPK",rstMap.get("AUTH_PK"));
+				
+				//(ii)정보가있으면 update 
+				System.out.println("AUTH테이블에 기존데이터있음 ");
+				authService.updateAuthInfo(rstMap);
+			}
 			
 			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
+			//3.이메일전송
+			SendMail.sendAuthMail(email, "[인증메일]", "이메일인증번호입니다 : "+tempKey);
 			
 			resultMap= CommonUtils.createResultMap("200", "success", "");	
 		} catch(Exception e) {
@@ -209,18 +250,47 @@ public class PhotographyController {
 				
 			}else {
 				
-			}
-			
+			}		
 			e.printStackTrace();
-			resultMap= CommonUtils.createResultMap(resultCode, resultstatus, message);
-			
+			resultMap= CommonUtils.createResultMap(resultCode, resultstatus, message);	
 		}
 	
-	
-		String rst = new Gson().toJson(resultMap);
-		
+		String rst = new Gson().toJson(resultMap);	
 		return rst;
 	}
+	
+	
+	
+	
+	//2.로그인요청
+	@RequestMapping(value = "/userLogin.do", method = RequestMethod.POST, produces = "application/text; charset=utf8" )
+	public String userLogin(RequestCommand reqParam, HttpSession session) {
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		Map<String, Object> param = reqParam.getParameterMap();
+		String resultCode ="0";
+		String resultstatus  ="";		
+		try {
+
+			resultMap= CommonUtils.createResultMap("200", "success", "");	
+		} catch(Exception e) {
+			String messageFlag= "";
+			String message="";
+			messageFlag= e.getMessage();
+			if(messageFlag.equals("500")) {
+				
+			}else if(messageFlag.equals("501")) {
+				
+			}else {
+				
+			}		
+			e.printStackTrace();
+			resultMap= CommonUtils.createResultMap(resultCode, resultstatus, message);	
+		}
+	
+		String rst = new Gson().toJson(resultMap);	
+		return rst;
+	}
+	
 	
 	//3.로그아웃 요청 
 	@RequestMapping(value = "/userLogout.do", method = RequestMethod.POST, produces = "application/text; charset=utf8" )

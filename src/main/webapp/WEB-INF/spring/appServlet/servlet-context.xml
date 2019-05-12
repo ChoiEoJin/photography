@@ -74,6 +74,8 @@
 		</beans:property> 
 	</beans:bean>
 	
+
+	
 	<!-- jwt secret key -->
 	<beans:bean id="JwtUtill" class="com.collabo.photography.common.jwt.JwtUtil">
 		<beans:property name="secretKey" value="${jwt.secretkey}"/>

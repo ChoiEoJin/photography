@@ -24,9 +24,9 @@
   #{birth},
   #{grade},
   #{email},
-  CURRENT_TIMESTAMP(),
+  #{created},
   #{email},
-  CURRENT_TIMESTAMP()
+  #{updated}
   )
  </insert>
 
@@ -36,5 +36,7 @@ select UUID,
   from TB_USER
  where USER_EMAIL=#{email}
 </select>
+
+
 
 </mapper>
