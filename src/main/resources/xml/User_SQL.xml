@@ -30,4 +30,11 @@
   )
  </insert>
 
+<select id="getUUID_By_EMAIL" parameterType="HashMap" resultType="HashMap">
+select UUID,
+	   USER_EMAIL
+  from TB_USER
+ where USER_EMAIL=#{email}
+</select>
+
 </mapper>

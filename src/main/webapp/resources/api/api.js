@@ -48,6 +48,34 @@ var api =
 					}
 				},
 				{
+					"name": "이메일중복체크",
+					"label": "warning", 	//success, primary, danger, warning
+					"desc": "/rest/emailDuplicatedCheck.do",
+					"progress":{ 
+						"rate":"100",
+						"desc":""
+					},
+					"info": {
+						"url": "/rest/emailDuplicatedCheck.do",
+						"reqParam": [
+							{
+								"name":"uuid", "type":"string", "req":"yes", "value":"chldjwlsuuid",
+								"desc":"기기ID"
+							},
+							{
+								"name":"email", "type":"string", "req":"yes", "value":"yms3684@naver.com",
+								"desc":"이메일"
+							}
+						],
+						"respParam": [
+						]
+					},
+					"sample": {
+						"desc": "",
+						"resp": '{"retCode": 0,"errMsg": "","retBody": ""}'
+					}
+				},
+				{
 					"name": "로그인",
 					"label": "warning", 	//success, primary, danger, warning
 					"desc": "/rest/userLogin.do",

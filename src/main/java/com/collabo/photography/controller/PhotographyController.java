@@ -47,11 +47,11 @@ public class PhotographyController {
 		try {
 			System.out.println("회원가입 드렁옴");
 			
-			String uuid = param.get("uuid").toString();
-			String email = param.get("email").toString();
-			String gender = param.get("gender").toString();
-			String birth= param.get("birth").toString();
-			String grade = param.get("grade").toString();
+			String uuid = param.get("uuid").toString().trim();
+			String email = param.get("email").toString().trim();
+			String gender = param.get("gender").toString().trim();
+			String birth= param.get("birth").toString().trim();
+			String grade = param.get("grade").toString().trim();
 			String USER_NO ="";
 			System.out.println("uuid : "+ uuid);
 			System.out.println("email : "+ email);
@@ -93,6 +93,86 @@ public class PhotographyController {
 		
 		return rst;
 	}
+	
+	
+	//이메일중복체크	
+	@RequestMapping(value = "/emailDuplicatedCheck.do", method = RequestMethod.POST, produces = "application/text; charset=utf8" )
+	public String emailDuplicatedCheck(RequestCommand reqParam, HttpSession session) {
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		Map<String, Object> param = reqParam.getParameterMap();
+		String resultCode ="0";
+		String resultstatus  ="";
+		String returnFlag ="";
+		
+		try {
+			
+			String email="";
+			String uuid="";
+			uuid = param.get("uuid").toString().trim();
+			email = param.get("email").toString().trim();
+			System.out.println("uuid : "+uuid);
+			System.out.println("email : "+email);
+			
+			Map<String,Object> emailCheckMap = new HashMap<>();
+			emailCheckMap.put("uuid", uuid);
+			emailCheckMap.put("email", email);
+			Map<String,Object> userInfoMap = userService.getUUID_By_EMAIL(emailCheckMap);
+			
+			String checkFlag = "";
+			if(userInfoMap.isEmpty()) {
+				System.out.println("601 : 이메일없음");
+				checkFlag="601";				
+			}else {
+				String rstUUID =  userInfoMap.get("UUID").toString();
+				if(uuid.equals(rstUUID)) {
+					System.out.println("현재기기에서  사용중입니다.");
+					checkFlag="602";
+				}else {
+					
+					System.out.println("다른기기에서 사용중입니다.");
+					checkFlag="603";
+				}
+			}
+
+			resultMap= CommonUtils.createResultMap("200", "success", checkFlag);	
+		} catch(Exception e) {
+			String messageFlag= "";
+			String message="";
+			messageFlag= e.getMessage();
+			if(messageFlag.equals("601")) {
+				
+			}else if(messageFlag.equals("602")) {
+				
+			}else {
+				
+			}
+			
+			e.printStackTrace();
+			resultMap= CommonUtils.createResultMap(resultCode, resultstatus, message);
+			
+		}
+	
+	
+		String rst = new Gson().toJson(resultMap);
+		
+		return rst;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	//2.로그인요청
 	@RequestMapping(value = "/userLogin.do", method = RequestMethod.POST, produces = "application/text; charset=utf8" )
