@@ -19,12 +19,24 @@ var api =
 						"url": "/rest/userRegist.do",
 						"reqParam": [
 							{
-								"name":"변수명1", "type":"string", "req":"yes", "value":"변수명1",
-								"desc":"변수명1"
+								"name":"uuid", "type":"string", "req":"yes", "value":"chldjwlsuuid",
+								"desc":"기기ID"
 							},
 							{
-								"name":"변수명2", "type":"string", "req":"yes", "value":"변수명2",
-								"desc":"변수명2"
+								"name":"email", "type":"string", "req":"yes", "value":"yms3684@naver.com",
+								"desc":"이메일"
+							},
+							{
+								"name":"gender", "type":"string", "req":"yes", "value":"M",
+								"desc":"성별"
+							},
+							{
+								"name":"birth", "type":"string", "req":"yes", "value":"1992/09/17",
+								"desc":"생년월일"
+							},
+							{
+								"name":"grade", "type":"string", "req":"yes", "value":"3",
+								"desc":"등급"
 							},
 						],
 						"respParam": [

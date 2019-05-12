@@ -9,7 +9,7 @@ public class UserDao {
 	@Inject
 	private SqlSessionTemplate sqlSession;
 
-	private static final String NAME_SPACE = "com.spring.choosebetter.mapper.user";
+	private static final String NAME_SPACE = "com.collabo.photography.mapper.user";
 	
 	
 	

@@ -9,7 +9,7 @@ public class RegisterDao {
 	@Inject
 	private SqlSessionTemplate sqlSession;
 
-	private static final String NAME_SPACE = "com.spring.choosebetter.mapper.regist";
+	private static final String NAME_SPACE = "com.collabo.photography.mapper.regist";
 	
 	
 	

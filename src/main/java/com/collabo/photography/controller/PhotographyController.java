@@ -4,20 +4,22 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import javax.annotation.Resource;
+import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.google.gson.Gson;
 import com.collabo.photography.common.util.CommonUtils;
 import com.collabo.photography.dao.TestDao;
+import com.collabo.photography.service.mapper.AuthMapper;
+import com.collabo.photography.service.mapper.UserMapper;
 import com.collabo.photography.vo.RequestCommand;
+import com.google.gson.Gson;
 
 @RestController
 @RequestMapping("/rest")
@@ -28,6 +30,12 @@ public class PhotographyController {
 	@Resource
 	TestDao testDao;
 	
+//	@Inject
+//	private AuthMapper authService;
+	
+	@Inject
+	private UserMapper userService;
+	
 	//1.회원가입요청
 	@RequestMapping(value = "/userRegist.do", method = RequestMethod.POST, produces = "application/text; charset=utf8" )
 	public String userRegist(RequestCommand reqParam, HttpSession session) {
@@ -37,22 +45,32 @@ public class PhotographyController {
 		String resultstatus  ="";
 		
 		try {
+			System.out.println("회원가입 드렁옴");
 			
+			String uuid = param.get("uuid").toString();
+			String email = param.get("email").toString();
+			String gender = param.get("gender").toString();
+			String birth= param.get("birth").toString();
+			String grade = param.get("grade").toString();
+			String USER_NO ="";
+			System.out.println("uuid : "+ uuid);
+			System.out.println("email : "+ email);
+			System.out.println("gender : "+ gender);
+			System.out.println("birth : "+ birth); 
+			System.out.println("grade : "+ grade);
 			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			resultMap= CommonUtils.createResultMap("200", "success", "");	
+			Map<String,Object> regUserMap = new HashMap<>();
+			regUserMap.put("userid", email);
+			regUserMap.put("uuid", uuid);
+			regUserMap.put("email", email);
+			regUserMap.put("gender", gender);
+			regUserMap.put("birth", birth);
+			regUserMap.put("grade", grade);
+			userService.registerUserInfo(regUserMap);
+			USER_NO = regUserMap.get("USER_NO").toString();
+			System.out.println("USER_NO : "+ USER_NO);
+			regUserMap.put("USER_NO", USER_NO);		
+			resultMap= CommonUtils.createResultMap("200", "success", regUserMap);	
 		} catch(Exception e) {
 			String messageFlag= "";
 			String message="";
@@ -447,13 +465,14 @@ public class PhotographyController {
 	
 	
 	//제이슨테스트
-	@RequestMapping("/dbJsonList.do")
+	@RequestMapping(value="/dbJsonList.do", method = RequestMethod.GET)
 	public Map<String,Object> cc(){
 		Map<String,Object> rst = new HashMap<>();	
-		List<Map<String,Object>> list = new ArrayList<>();	
-		list= testDao.getTestListMap();	
-		rst.put("resultData", list);	
-		logger.debug(rst);
+//		List<Map<String,Object>> list = new ArrayList<>();	
+//		list= testDao.getTestListMap();	
+//		rst.put("resultData", list);	
+//		logger.debug(rst);
+		logger.debug("gdgd");
 		return rst;
 	}
 	

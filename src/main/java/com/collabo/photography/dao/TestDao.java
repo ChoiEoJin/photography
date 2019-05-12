@@ -13,7 +13,7 @@ public class TestDao {
 	@Inject
 	private SqlSessionTemplate sqlSession;
 
-	private static final String NAME_SPACE = "com.spring.choosebetter.mapper.test";
+	private static final String NAME_SPACE = "com.collabo.photography.mapper.test";
 	
 	public List<Map<String, Object>> getTestListMap() {		
 		return sqlSession.selectList(NAME_SPACE + ".getTestListMap");
