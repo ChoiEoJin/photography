@@ -124,12 +124,12 @@ public class PhotographyController {
 				checkFlag="601";				
 			}else {
 				String rstUUID =  userInfoMap.get("UUID").toString();
-				if(uuid.equals(rstUUID)) {
-					System.out.println("현재기기에서  사용중입니다.");
-					checkFlag="602";
-				}else {
-					
+				if(uuid.equals(rstUUID)==false) {
 					System.out.println("다른기기에서 사용중입니다.");
+					
+					checkFlag="602";
+				}else {				
+					System.out.println("현재기기에서  사용중입니다.");
 					checkFlag="603";
 				}
 			}
