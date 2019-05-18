@@ -149,7 +149,7 @@ var api =
 				},
 				{
 					"name": "로그인",
-					"label": "warning", 	//success, primary, danger, warning
+					"label": "success", 	//success, primary, danger, warning
 					"desc": "/rest/emailLogin.do",
 					"progress":{ 
 						"rate":"100",

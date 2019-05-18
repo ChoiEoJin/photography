@@ -48,9 +48,11 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 //		str[0] = "/rest/ifTest001.do";
 //		setExclude(str);
 		String temp = request.getRequestURL().toString();
+//		System.out.println("temp :"+temp);
 		logger.debug("temp : "+temp);
 		for (int i = 0; i < exclude.length; i++) {
 			String ex = exclude[i];
+//			System.out.println("ex :"+ex);
 			logger.debug("temp : "+temp);
 //			System.out.println("temp : "+temp);
 			logger.debug("ex :"+ex);
@@ -79,6 +81,12 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 			if(!jwt.verification(request.getHeader("Authorization"))) {
 				System.out.println("기간만료된 토큰입니다.");
 				//throw new Exception("This token is expired.");		
+			}else {
+				System.out.println("기간만료안됨");
+				//기간연장시켜주기
+				
+				
+				
 			}
 		}
 		System.out.println("도착");

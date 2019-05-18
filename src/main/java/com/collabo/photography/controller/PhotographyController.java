@@ -331,7 +331,7 @@ public class PhotographyController {
 		String resultstatus  ="";
 		String rstFlag = "";
 		Map<String,Object> tempMap = new HashMap<>();
-		String jwt="";
+		String Authorization="";
 		try {
 			
 			
@@ -374,14 +374,14 @@ public class PhotographyController {
 					  jwtParamMap.put("user_email", rstEmail);
 					  
 					  rstFlag= "200";
-					  jwt = jwtUtil.createJWT(jwtParamMap);
+					  Authorization = jwtUtil.createJWT(jwtParamMap);
 					  
 				  }
 				  
 			  }
 			
 			tempMap.put("rstFlag", rstFlag);
-			tempMap.put("jwt", jwt);
+			tempMap.put("Authorization", Authorization);
 			
 			resultMap= CommonUtils.createResultMap("200", "success",tempMap);	
 			
