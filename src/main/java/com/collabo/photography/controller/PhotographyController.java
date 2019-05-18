@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
@@ -380,6 +381,7 @@ public class PhotographyController {
 				  
 			  }
 			
+			  
 			tempMap.put("rstFlag", rstFlag);
 			tempMap.put("Authorization", Authorization);
 			
@@ -455,7 +457,7 @@ public class PhotographyController {
 	
 	//4.메인화면데이터요청 
 	@RequestMapping(value = "/getMainData.do", method = RequestMethod.POST, produces = "application/text; charset=utf8" )
-	public String getMainData(RequestCommand reqParam, HttpSession session) {
+	public String getMainData(RequestCommand reqParam, HttpSession session ,HttpServletRequest request) {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		Map<String, Object> param = reqParam.getParameterMap();
 		String resultCode ="0";
@@ -463,8 +465,13 @@ public class PhotographyController {
 		
 		try {
 			
+			String testJWT =  request.getAttribute("testJWT").toString();
+			System.out.println("testJWT : "+testJWT);
 			
-			
+			String var1 = param.get("var1").toString();
+			String var2 = param.get("var2").toString();
+			System.out.println("var1 : "+var1);
+			System.out.println("var2 : "+var2);
 			
 			
 			

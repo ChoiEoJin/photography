@@ -83,6 +83,15 @@ public class JwtUtil {
 		
 		return result;
 	}
+	
+	
+	public Jws<Claims> getClaims(String token) throws ExpiredJwtException, UnsupportedJwtException, MalformedJwtException, SignatureException, IllegalArgumentException, UnsupportedEncodingException{
+		Jws<Claims> claims = Jwts.parser()
+				  .setSigningKey(secretKey.getBytes("UTF-8"))
+				  .parseClaimsJws(token);		
+		return claims;
+		
+	}
 
 	public String getSecretKey() {
 		return secretKey;

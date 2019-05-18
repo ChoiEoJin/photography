@@ -1,5 +1,8 @@
 package com.collabo.photography.common.interceptor;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -8,11 +11,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-import com.sun.xml.internal.bind.v2.TODO;
-
-import com.collabo.photography.common.exception.CommonException;
 import com.collabo.photography.common.jwt.JwtUtil;
 import com.collabo.photography.common.util.MessageUtil;
+
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
 //import com.collabo.photography.common.util.SessionUtil;
 
 public class LoginInterceptor extends HandlerInterceptorAdapter {
@@ -76,6 +79,18 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 		System.out.println("getRequestURL : "+ temp);
 		if(request.getHeader("Authorization")==null) {
 			System.out.println("(request.getHeader(\"Authorization\")==null");
+			Map<String,Object> paramMap  = new HashMap<>();
+			
+			String test1 = "test1";
+			String test2 = "test2";
+			String test3= "test3";
+			paramMap.put("user_no", test1);
+			paramMap.put("user_id", test2);
+			paramMap.put("user_email", test3);
+			
+			String testJWT  = jwt.createJWT(paramMap);
+			request.setAttribute("testJWT",testJWT);
+			
 			//throw new Exception("request.getHeader(\"Authorization\")==null");			
 		}else {
 			if(!jwt.verification(request.getHeader("Authorization"))) {
@@ -83,9 +98,25 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 				//throw new Exception("This token is expired.");		
 			}else {
 				System.out.println("기간만료안됨");
-				//기간연장시켜주기
 				
 				
+				//JWT 새로생성하기
+				String oldAuthorization = request.getHeader("Authorization");
+				System.out.println(oldAuthorization);
+				
+				Jws<Claims> claims = jwt.getClaims(oldAuthorization);
+				String userNo = claims.getBody().get("user_no").toString();
+				String userId = claims.getBody().get("user_id").toString();
+				String userEmail = claims.getBody().get("user_email").toString();
+				Map<String,Object> jwtParam  = new HashMap<>();
+				jwtParam.put("user_no",userNo);
+				jwtParam.put("user_id",userId);
+				jwtParam.put("user_email",userEmail);
+				String newJwt = jwt.createJWT(jwtParam);
+				
+				//request객체에 담아서보내주기
+				request.setAttribute("JWT",newJwt);
+
 				
 			}
 		}

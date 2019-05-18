@@ -219,11 +219,11 @@ var api =
 						"url": "/rest/getMainData.do",
 						"reqParam": [
 							{
-								"name":"변수명1", "type":"string", "req":"yes", "value":"변수명1",
+								"name":"var1", "type":"string", "req":"yes", "value":"변수명1",
 								"desc":"변수명1"
 							},
 							{
-								"name":"변수명2", "type":"string", "req":"yes", "value":"변수명2",
+								"name":"var2", "type":"string", "req":"yes", "value":"변수명2",
 								"desc":"변수명2"
 							},
 						],

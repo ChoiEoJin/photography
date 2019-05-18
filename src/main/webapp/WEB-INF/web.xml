@@ -3,6 +3,12 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
 
+
+  	<welcome-file-list> 
+ 		<welcome-file>/sample/index.do</welcome-file> 
+	</welcome-file-list> 
+
+
 	<!-- The definition of the Root Spring Container shared by all Servlets and Filters -->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
@@ -13,13 +19,13 @@
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
-
 	 <!-- Log4j -->
 	<listener>
-		<listener-class>
-			org.springframework.web.util.Log4jConfigListener
-		</listener-class> 
+		<listener-class>org.springframework.web.util.Log4jConfigListener</listener-class> 
 	</listener>
+	
+	
+	
 	<!-- Processes application requests -->
 	<servlet>
 		<servlet-name>appServlet</servlet-name>
@@ -36,9 +42,7 @@
  		<url-pattern>*.do</url-pattern> 
 	</servlet-mapping> 
  
-  	<welcome-file-list> 
- 		<welcome-file>/sample/index.do</welcome-file> 
-	</welcome-file-list> 
+
 
 	<!-- 한글필터 -->
 	<filter>
