@@ -89,7 +89,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 			paramMap.put("user_email", test3);
 			
 			String testJWT  = jwt.createJWT(paramMap);
-			request.setAttribute("testJWT",testJWT);
+			request.setAttribute("Authorization",testJWT);
 			
 			//throw new Exception("request.getHeader(\"Authorization\")==null");			
 		}else {
@@ -115,7 +115,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 				String newJwt = jwt.createJWT(jwtParam);
 				
 				//request객체에 담아서보내주기
-				request.setAttribute("JWT",newJwt);
+				request.setAttribute("Authorization",newJwt);
 
 				
 			}

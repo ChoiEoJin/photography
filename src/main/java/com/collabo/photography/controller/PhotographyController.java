@@ -465,8 +465,8 @@ public class PhotographyController {
 		
 		try {
 			
-			String testJWT =  request.getAttribute("testJWT").toString();
-			System.out.println("testJWT : "+testJWT);
+			String testJWT =  request.getAttribute("Authorization").toString();
+			System.out.println("Authorization : "+testJWT);
 			
 			String var1 = param.get("var1").toString();
 			String var2 = param.get("var2").toString();
