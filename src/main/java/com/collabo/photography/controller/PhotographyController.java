@@ -1,7 +1,6 @@
 package com.collabo.photography.controller;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,11 +15,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.collabo.photography.common.jwt.JwtUtil;
 import com.collabo.photography.common.util.AuthUtil;
 import com.collabo.photography.common.util.CommonUtils;
 import com.collabo.photography.common.util.SendMail;
 import com.collabo.photography.dao.TestDao;
 import com.collabo.photography.service.mapper.AuthMapper;
+import com.collabo.photography.service.mapper.LoginMapper;
 import com.collabo.photography.service.mapper.UserMapper;
 import com.collabo.photography.vo.RequestCommand;
 import com.google.gson.Gson;
@@ -42,6 +43,12 @@ public class PhotographyController {
 	
 	@Autowired
 	private AuthUtil authUtil;
+
+	@Autowired
+	private LoginMapper loginService;
+	
+	@Autowired
+	private JwtUtil jwtUtil;
 	
 
 	//1.회원가입요청
@@ -316,15 +323,68 @@ public class PhotographyController {
 	
 	
 	//2.로그인요청
-	@RequestMapping(value = "/userLogin.do", method = RequestMethod.POST, produces = "application/text; charset=utf8" )
-	public String userLogin(RequestCommand reqParam, HttpSession session) {
+	@RequestMapping(value = "/emailLogin.do", method = RequestMethod.POST, produces = "application/text; charset=utf8" )
+	public String emailLogin(RequestCommand reqParam, HttpSession session) {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		Map<String, Object> param = reqParam.getParameterMap();
 		String resultCode ="0";
-		String resultstatus  ="";		
+		String resultstatus  ="";
+		String rstFlag = "";
+		Map<String,Object> tempMap = new HashMap<>();
+		String jwt="";
 		try {
-
-			resultMap= CommonUtils.createResultMap("200", "success", "");	
+			
+			
+			
+			//1.uuid,email 받는다.
+			  Object p_uuid = param.get("uuid").toString();
+			  Object p_email = param.get("email").toString();
+			  if(p_uuid==null || p_email==null) throw new Exception("501");
+			 
+			  //2.uuid tb_user를 조회하여, 있는지확인한다.
+			  Map<String,Object> rstMap = loginService.getUserInfoByUUID(param);
+			  
+			//3.없으면  예외처리한다.
+			  if(rstMap==null) {
+				  System.out.println("해당기기로 등록된 유저정보없음");
+				  rstFlag="UNREGISTERD_01";
+			  }else {
+				  
+				  int rstUserNo = Integer.parseInt(rstMap.get("USER_NO").toString());
+				  String rstUserId  = rstMap.get("USER_ID").toString();
+				  String rstEmail = rstMap.get("USER_EMAIL").toString();
+//				  String rstUserGender = rstMap.get("USER_GENDER").toString();
+//				  String rstUserBirth = rstMap.get("USER_BIRTH").toString();//date
+//				  int rstUserGrade = Integer.parseInt(rstMap.get("USER_GRADE").toString());
+				  
+				  if(rstEmail.trim().equals("")) {
+					  System.out.println("기기변경후 아직 이메일없음");
+					  rstFlag="UNREGISTERD_02";
+					  
+				  }else if(p_email.equals(rstEmail)==false) {
+					  System.out.println("이메일이 일치하지 않습니다");
+					  rstFlag="MISMATCH_02";
+					  
+				  }else {//4.있으면 토큰생성한다. 
+					  System.out.println("로그인성공");
+					  
+					  Map<String,Object> jwtParamMap =  new HashMap<>();
+					  jwtParamMap.put("user_no", rstUserNo);
+					  jwtParamMap.put("user_id", rstUserId);
+					  jwtParamMap.put("user_email", rstEmail);
+					  
+					  rstFlag= "200";
+					  jwt = jwtUtil.createJWT(jwtParamMap);
+					  
+				  }
+				  
+			  }
+			
+			tempMap.put("rstFlag", rstFlag);
+			tempMap.put("jwt", jwt);
+			
+			resultMap= CommonUtils.createResultMap("200", "success",tempMap);	
+			
 		} catch(Exception e) {
 			String messageFlag= "";
 			String message="";

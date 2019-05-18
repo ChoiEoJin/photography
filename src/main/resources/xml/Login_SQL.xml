@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="com.collabo.photography.service.mapper.LoginMapper">
+<select id="getUserInfoByUUID" parameterType="HashMap" resultType="HashMap">
+select 
+USER_NO,
+USER_ID,
+USER_EMAIL,
+USER_GENDER,
+USER_BIRTH,
+USER_GRADE 
+from TB_USER
+where UUID=#{uuid}
+</select>
+ </mapper>

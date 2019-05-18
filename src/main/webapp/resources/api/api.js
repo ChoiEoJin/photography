@@ -150,21 +150,21 @@ var api =
 				{
 					"name": "로그인",
 					"label": "warning", 	//success, primary, danger, warning
-					"desc": "/rest/userLogin.do",
+					"desc": "/rest/emailLogin.do",
 					"progress":{ 
 						"rate":"100",
 						"desc":""
 					},
 					"info": {
-						"url": "/rest/userLogin.do",
+						"url": "/rest/emailLogin.do",
 						"reqParam": [
 							{
-								"name":"변수명1", "type":"string", "req":"yes", "value":"변수명1",
-								"desc":"변수명1"
+								"name":"uuid", "type":"string", "req":"yes", "value":"chldjwlsuuid",
+								"desc":"기기명"
 							},
 							{
-								"name":"변수명2", "type":"string", "req":"yes", "value":"변수명2",
-								"desc":"변수명2"
+								"name":"email", "type":"string", "req":"yes", "value":"yms3684@naver.com",
+								"desc":"이메일"
 							},
 						],
 						"respParam": [

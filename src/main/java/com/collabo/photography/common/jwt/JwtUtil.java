@@ -34,15 +34,17 @@ public class JwtUtil {
 	    
 	    long expMillis = nowMillis + 36000000 * 12; //1시간 360만밀리세컨즈 =  3600초 = 1시간 
 	    Date exp = new Date(expMillis);
-
-	    log.debug(paramMap.get("usr_id"));
-	    log.debug(paramMap.get("usr_nm"));
+	    log.debug(paramMap.get("user_no"));
+	    log.debug(paramMap.get("user_id"));
+	    log.debug(paramMap.get("user_email"));
+	    
 		String jwt = Jwts.builder()
 				  .setHeaderParam("type","JWT")
 				  .setSubject("ChooseBetter")
 				  .setExpiration(exp)
-				  .claim("usr_id", paramMap.get("usr_id"))
-				  .claim("usr_nm", paramMap.get("usr_nm"))
+				  .claim("user_no", paramMap.get("user_no"))
+				  .claim("user_id", paramMap.get("user_id"))
+				  .claim("user_email", paramMap.get("user_email"))
 				  .signWith(
 				    SignatureAlgorithm.HS256,
 				    secretKey.getBytes("UTF-8")
