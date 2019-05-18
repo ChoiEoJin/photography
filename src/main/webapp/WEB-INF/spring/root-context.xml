@@ -7,46 +7,30 @@
 	xmlns:mvc="http://www.springframework.org/schema/mvc"
 	xmlns:p="http://www.springframework.org/schema/p"
 	xsi:schemaLocation="http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.3.xsd
-		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 	
-<!-- 
-     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">    
-        <property name="locations" value="/WEB-INF/config/config.properties"/>    
-        <property name="fileEncoding" value="UTF-8"/>
-     </bean>
--->
 
-<!--
-    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <property name="driverClassName" value="${db.driver}"/>
-        <property name="url" value="${db.url}"/>
-        <property name="username" value="${db.username}"/>
-        <property name="password" value="${db.password}"/>
-    </bean>
--->
-	<!-- config.proerties 관리하는 객체 -->
-	<bean class="com.collabo.photography.vo.CommonConfig"/>
 	<util:properties id="config" location="classpath:config.properties"/>
 	
-    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <property name="driverClassName" value="#{config['db.driver']}"/>
-        <property name="url" value="#{config['db.url']}"/>
-        <property name="username" value="#{config['db.username']}"/>
-        <property name="password" value="#{config['db.password']}"/>
-    </bean>
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="#{config['db.driver']}"/>
+		<property name="url" value="#{config['db.url']}"/>
+		<property name="username" value="#{config['db.username']}"/>
+		<property name="password" value="#{config['db.password']}"/>
+	</bean>
     
-   	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource" ref="dataSource" />
 	</bean>
     
      <!-- MyBatis -->   
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-        <property name="dataSource" ref="dataSource"></property>
-      	<property name="configLocation" value="classpath:/mybatis-config.xml"/>
-      	<property name="mapperLocations" value="classpath:/xml/*_SQL.xml" />
+        <property name="dataSource" ref="dataSource"/>
+        <property name="configLocation" value="classpath:/mybatis-config.xml"/>
+		<property name="mapperLocations" value="classpath:/xml/*_SQL.xml" />
     </bean>
     
     <bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate" destroy-method="clearCache">
@@ -57,7 +41,8 @@
   		<property name="basePackage" value="com.collabo.photography.service.mapper" />
 	</bean>
 	
-
+	<!-- config.proerties 관리하는 객체 -->
+	<bean class="com.collabo.photography.vo.CommonConfig"/>
     
    	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 		<property name="maxUploadSize" value="1000000000" />

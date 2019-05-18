@@ -5,12 +5,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.Resource;
+
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -20,7 +21,6 @@ import com.collabo.photography.common.jwt.JwtUtil;
 import com.collabo.photography.common.util.AuthUtil;
 import com.collabo.photography.common.util.CommonUtils;
 import com.collabo.photography.common.util.SendMail;
-import com.collabo.photography.dao.TestDao;
 import com.collabo.photography.service.mapper.AuthMapper;
 import com.collabo.photography.service.mapper.LoginMapper;
 import com.collabo.photography.service.mapper.UserMapper;
@@ -30,11 +30,8 @@ import com.google.gson.Gson;
 @RestController
 @RequestMapping("/rest")
 public class PhotographyController {
-	private static final Logger logger = Logger.getLogger(PhotographyController.class);
+	private static final Logger logger = LoggerFactory.getLogger(PhotographyController.class);
 
-	
-	@Resource
-	TestDao testDao;
 	
 	@Inject
 	private AuthMapper authService;
@@ -746,33 +743,6 @@ public class PhotographyController {
 		return rst;
 	}
 	
-	//test
-	@RequestMapping(value = "/test.do", method = RequestMethod.POST, produces = "application/text; charset=utf8" )
-	public String get(RequestCommand reqParam, HttpSession session) {
-		Map<String, Object> result = new HashMap<String, Object>();
-		Map<String, Object> header= new HashMap<String, Object>();
-		Map<String, Object> body= new HashMap<String, Object>();
-		Map<String, Object> param = reqParam.getParameterMap();
-		
-		header.put("retCode", 0);
-		header.put("errMsg", "");
-		
-		try {
-			List<Map<String, Object>> data =  testDao.getTestListMap();	
-			body.put("data", data);
-		} catch(Exception e) {
-			logger.error(e.getMessage());
-			e.printStackTrace();
-			header.put("retCode", 404);
-			header.put("errMsg", "error");
-		}
-		
-		result.put("header", header);
-		result.put("body", body);
-		
-		String rst = new Gson().toJson(result);
-		
-		return rst;
-	}
+
 
 }

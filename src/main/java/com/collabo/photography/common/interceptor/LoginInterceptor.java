@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.collabo.photography.common.jwt.JwtUtil;
-import com.collabo.photography.common.util.MessageUtil;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
@@ -20,9 +19,6 @@ import io.jsonwebtoken.Jws;
 
 public class LoginInterceptor extends HandlerInterceptorAdapter {
 	protected Logger logger = LoggerFactory.getLogger(LoginInterceptor.class);
-
-	@Autowired
-	MessageUtil messageUtil;
 
 	@Autowired
 	private JwtUtil jwt;
@@ -75,10 +71,10 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 		//검사대상인경우
 //		System.out.println("indexOf: "+ temp.indexOf("/web/"));//?
 
-		System.out.println("JsonWebToken검사가 필요한작업입니다!");
-		System.out.println("getRequestURL : "+ temp);
+//		System.out.println("JsonWebToken검사가 필요한작업입니다!");
+//		System.out.println("getRequestURL : "+ temp);
 		if(request.getHeader("Authorization")==null) {
-			System.out.println("(request.getHeader(\"Authorization\")==null");
+			//System.out.println("(request.getHeader(\"Authorization\")==null");
 			Map<String,Object> paramMap  = new HashMap<>();
 			
 			String test1 = "test1";
@@ -120,7 +116,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 				
 			}
 		}
-		System.out.println("도착");
+		//System.out.println("도착");
 		return true;//검증통과하면 가던길 계속가!
 	}
 }
