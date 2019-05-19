@@ -371,6 +371,54 @@ var api =
 						"resp": '{"retCode": 0,"errMsg": "","retBody": ""}'
 					}
 				},
+				{//AES256암호화
+					"name": "aesEncode.do",
+					"label": "success", 	//success, primary, danger, warning
+					"desc": "/rest/aesEncode.do",
+					"progress":{ 
+						"rate":"100",
+						"desc":""
+					},
+					"info": {
+						"url": "/rest/aesEncode.do",
+						"reqParam": [
+							{
+								"name":"param1", "type":"string", "req":"yes", "value":"hello!!",
+								"desc":"그냥일반문자열"
+							},
+						],
+						"respParam": [
+						]
+					},
+					"sample": {
+						"desc": "",
+						"resp": '{"retCode": 0,"errMsg": "","retBody": ""}'
+					}
+				},
+				{//AES256복호화
+					"name": "aesDecode.do",
+					"label": "success", 	//success, primary, danger, warning
+					"desc": "/rest/aesDecode.do",
+					"progress":{ 
+						"rate":"100",
+						"desc":""
+					},
+					"info": {
+						"url": "/rest/aesDecode.do",
+						"reqParam": [
+							{
+								"name":"encodedStr", "type":"string", "req":"yes", "value":"",
+								"desc":"aes256으로 암호화된 문자열"
+							},
+						],
+						"respParam": [
+						]
+					},
+					"sample": {
+						"desc": "",
+						"resp": '{"retCode": 0,"errMsg": "","retBody": ""}'
+					}
+				},
 			]
 		},
 //		{

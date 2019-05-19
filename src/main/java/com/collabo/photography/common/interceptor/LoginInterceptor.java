@@ -47,15 +47,15 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 //		str[0] = "/rest/ifTest001.do";
 //		setExclude(str);
 		String temp = request.getRequestURL().toString();
-//		System.out.println("temp :"+temp);
+
 		logger.debug("temp : "+temp);
 		for (int i = 0; i < exclude.length; i++) {
 			String ex = exclude[i];
-//			System.out.println("ex :"+ex);
+
 			logger.debug("temp : "+temp);
-//			System.out.println("temp : "+temp);
+
 			logger.debug("ex :"+ex);
-//			System.out.println("ex :"+ex);
+
 			if (temp.indexOf(ex) > -1) {//예외 대상이면,
 				return true; // 통과
 			}
@@ -69,12 +69,11 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 		
 		
 		//검사대상인경우
-//		System.out.println("indexOf: "+ temp.indexOf("/web/"));//?
+//		logger.debug.println("indexOf: "+ temp.indexOf("/web/"));//?
 
-		System.out.println("JsonWebToken검사가 필요한작업입니다!");
-		System.out.println("getRequestURL : "+ temp);
+		logger.debug("JsonWebToken검사가 필요한작업입니다!");
+		logger.debug("getRequestURL : "+ temp);
 		if(request.getHeader("Authorization")==null) {
-			System.out.println("(request.getHeader(\"Authorization\")==null");
 			Map<String,Object> paramMap  = new HashMap<>();
 			
 			String test1 = "test1";
@@ -90,15 +89,15 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 			//throw new Exception("request.getHeader(\"Authorization\")==null");			
 		}else {
 			if(!jwt.verification(request.getHeader("Authorization"))) {
-				System.out.println("기간만료된 토큰입니다.");
+				logger.debug("기간만료된 토큰입니다.");
 				//throw new Exception("This token is expired.");		
 			}else {
-				System.out.println("기간만료안됨");
+				logger.debug("기간만료안됨");
 				
 				
 				//JWT 새로생성하기
 				String oldAuthorization = request.getHeader("Authorization");
-				System.out.println(oldAuthorization);
+				logger.debug(oldAuthorization);
 				
 				Jws<Claims> claims = jwt.getClaims(oldAuthorization);
 				String userNo = claims.getBody().get("user_no").toString();
@@ -116,7 +115,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 				
 			}
 		}
-		System.out.println("도착");
+		logger.debug("도착");
 		return true;//검증통과하면 가던길 계속가!
 	}
 }

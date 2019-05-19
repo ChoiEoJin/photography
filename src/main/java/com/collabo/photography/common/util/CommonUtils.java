@@ -31,52 +31,52 @@ public class CommonUtils {
 	}
 	
 	//result에 맵을담을때
-	public static Map<String,Object> createResultMap (String resultCode,String resultstatus,Map<String,Object> result){
+	public static Map<String,Object> createResultMap (String resultCode,String resultStatus,Map<String,Object> result){
 		
 		Map<String,Object> resultMap = new HashMap<>();
 		resultMap.put("resultCode", resultCode);
-		resultMap.put("resultstatus", resultstatus);
+		resultMap.put("resultStatus", resultStatus);
 		resultMap.put("result", result);
 		return resultMap;
 		
 	}
 	
 	//result에 맵리스트를넘길때
-	public static Map<String,Object> createResultMap (String resultCode,String resultstatus,List<Map<String,Object>> result){
+	public static Map<String,Object> createResultMap (String resultCode,String resultStatus,List<Map<String,Object>> result){
 		
 		Map<String,Object> resultMap = new HashMap<>();
 		resultMap.put("resultCode", resultCode);
-		resultMap.put("resultstatus", resultstatus);
+		resultMap.put("resultStatus", resultStatus);
 		resultMap.put("result", result);
 		return resultMap;
 	}
 	
 	//result에 문자열담을때
-	public static Map<String,Object> createResultMap (String resultCode,String resultstatus,String result){
+	public static Map<String,Object> createResultMap (String resultCode,String resultStatus,String result){
 		
 		Map<String,Object> resultMap = new HashMap<>();
 		resultMap.put("resultCode", resultCode);
-		resultMap.put("resultstatus", resultstatus);
+		resultMap.put("resultStatus", resultStatus);
 		resultMap.put("result", result);
 		return resultMap;
 	}
 	
 	//result에 int형담을때
-	public static Map<String,Object> createResultMap (String resultCode,String resultstatus,int result){
+	public static Map<String,Object> createResultMap (String resultCode,String resultStatus,int result){
 		
 		Map<String,Object> resultMap = new HashMap<>();
 		resultMap.put("resultCode", resultCode);
-		resultMap.put("resultstatus", resultstatus);
+		resultMap.put("resultStatus", resultStatus);
 		resultMap.put("result", result);
 		return resultMap;
 	}
 	
 	//result에 boolean형담을때
-	public static Map<String,Object> createResultMap (String resultCode,String resultstatus,boolean result){
+	public static Map<String,Object> createResultMap (String resultCode,String resultStatus,boolean result){
 		
 		Map<String,Object> resultMap = new HashMap<>();
 		resultMap.put("resultCode", resultCode);
-		resultMap.put("resultstatus", resultstatus);
+		resultMap.put("resultStatus", resultStatus);
 		resultMap.put("result", result);
 		return resultMap;
 	}
