@@ -12,7 +12,7 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 	
-
+	<!-- Root Context: defines shared resources visible to all other web components -->
 	<util:properties id="config" location="classpath:config.properties"/>
 	
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
@@ -21,12 +21,11 @@
 		<property name="username" value="#{config['db.username']}"/>
 		<property name="password" value="#{config['db.password']}"/>
 	</bean>
-    
+	
 	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource" ref="dataSource" />
 	</bean>
-    
-     <!-- MyBatis -->   
+	
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource"/>
         <property name="configLocation" value="classpath:/mybatis-config.xml"/>
@@ -39,12 +38,8 @@
     
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
   		<property name="basePackage" value="com.collabo.photography.service.mapper" />
-	</bean>
+	</bean>	
 	
-	<!-- config.proerties 관리하는 객체 -->
+		<!-- config.proerties 관리하는 객체 -->
 	<bean class="com.collabo.photography.vo.CommonConfig"/>
-    
-   	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-		<property name="maxUploadSize" value="1000000000" />
-	</bean>
 </beans>

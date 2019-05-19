@@ -71,10 +71,10 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 		//검사대상인경우
 //		System.out.println("indexOf: "+ temp.indexOf("/web/"));//?
 
-//		System.out.println("JsonWebToken검사가 필요한작업입니다!");
-//		System.out.println("getRequestURL : "+ temp);
+		System.out.println("JsonWebToken검사가 필요한작업입니다!");
+		System.out.println("getRequestURL : "+ temp);
 		if(request.getHeader("Authorization")==null) {
-			//System.out.println("(request.getHeader(\"Authorization\")==null");
+			System.out.println("(request.getHeader(\"Authorization\")==null");
 			Map<String,Object> paramMap  = new HashMap<>();
 			
 			String test1 = "test1";
@@ -116,7 +116,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 				
 			}
 		}
-		//System.out.println("도착");
+		System.out.println("도착");
 		return true;//검증통과하면 가던길 계속가!
 	}
 }

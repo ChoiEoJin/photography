@@ -1,4 +1,4 @@
-package  com.collabo.photography.vo;
+package com.collabo.photography.vo;
 
 import java.util.ArrayList;
 import java.util.HashMap;

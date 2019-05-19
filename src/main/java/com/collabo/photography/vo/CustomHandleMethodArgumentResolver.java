@@ -1,4 +1,4 @@
-package  com.collabo.photography.vo;
+package com.collabo.photography.vo;
 
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -33,12 +33,13 @@ public class CustomHandleMethodArgumentResolver implements HandlerMethodArgument
 			String key = parameterNames.nextElement();
 			String[] values = request.getParameterValues(key);
 			
-			try {
-				int value = Integer.parseInt(values[0]);
-				parameterMap.put(key, value);
-			} catch(NumberFormatException e) {
-				parameterMap.put(key, values[0]);
-			}
+			parameterMap.put(key, values[0]);
+//			try {
+//				int value = Integer.parseInt(values[0]);
+//				parameterMap.put(key, value);
+//			} catch(NumberFormatException e) {
+//				parameterMap.put(key, values[0]);
+//			}
 		}
 		
 		
@@ -50,7 +51,7 @@ public class CustomHandleMethodArgumentResolver implements HandlerMethodArgument
 //			if(tblN != null) 
 //			{				
 ////				if(Ivalues != 0 || values[0] == "")continue;				
-//				//臾몄옄�뿴 �뱾�� 洹몃�濡� 留듭뿉 ���옣
+//				//문자열 들은 그대로 맵에 저장
 //				if (values != null) {
 //					if (values.length == 1) {
 //						parameterMap.put(key, values[0]);
@@ -60,7 +61,7 @@ public class CustomHandleMethodArgumentResolver implements HandlerMethodArgument
 //				}
 //			}
 //			else {
-//				//臾몄옄�뿴 �뱾�� 洹몃�濡� 留듭뿉 ���옣
+//				//문자열 들은 그대로 맵에 저장
 //				if (values != null) {
 //					if (values.length == 1) {
 //						parameterMap.put(key, values[0]);
@@ -72,7 +73,7 @@ public class CustomHandleMethodArgumentResolver implements HandlerMethodArgument
 //			
 //		}
 	
-		// Controller�뿉�꽌 留ㅺ쾶蹂��닔濡� 諛쏆쓣 �닔 �엳寃� 而ㅻ㎤�뱶瑜� �깮�꽦�빐 �뜲�씠�꽣瑜� set�븯�뿬 由ы꽩�븳�떎.
+		// Controller에서 매게변수로 받을 수 있게 커맨드를 생성해 데이터를 set하여 리턴한다.
 		return new RequestCommand(parameterMap);
 	}
 
@@ -82,3 +83,4 @@ public class CustomHandleMethodArgumentResolver implements HandlerMethodArgument
 	}
 
 }
+

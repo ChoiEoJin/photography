@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
+import javax.annotation.Resource;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -20,17 +20,21 @@ import com.collabo.photography.common.jwt.JwtUtil;
 import com.collabo.photography.common.util.AuthUtil;
 import com.collabo.photography.common.util.CommonUtils;
 import com.collabo.photography.common.util.SendMail;
+import com.google.gson.Gson;
+import com.collabo.photography.dao.TestDao;
 import com.collabo.photography.service.mapper.AuthMapper;
 import com.collabo.photography.service.mapper.LoginMapper;
 import com.collabo.photography.service.mapper.UserMapper;
 import com.collabo.photography.vo.RequestCommand;
-import com.google.gson.Gson;
 
 @RestController
 @RequestMapping("/rest")
 public class PhotographyController {
 	private static final Logger logger = Logger.getLogger(PhotographyController.class);
 
+	
+	@Resource
+	TestDao testDao;
 	
 	@Inject
 	private AuthMapper authService;
@@ -57,7 +61,7 @@ public class PhotographyController {
 		String resultstatus  ="";
 		
 		try {
-			System.out.println("회원가입 드렁옴");
+			logger.debug("회원가입 드렁옴");
 			
 			String uuid = param.get("uuid").toString().trim();
 			String email = param.get("email").toString().trim();
@@ -65,11 +69,11 @@ public class PhotographyController {
 			String birth= param.get("birth").toString().trim();
 			String grade = param.get("grade").toString().trim();
 			String USER_NO ="";
-			System.out.println("uuid : "+ uuid);
-			System.out.println("email : "+ email);
-			System.out.println("gender : "+ gender);
-			System.out.println("birth : "+ birth); 
-			System.out.println("grade : "+ grade);
+			logger.debug("uuid : "+ uuid);
+			logger.debug("email : "+ email);
+			logger.debug("gender : "+ gender);
+			logger.debug("birth : "+ birth); 
+			logger.debug("grade : "+ grade);
 			
 			Map<String,Object> regUserMap = new HashMap<>();
 			regUserMap.put("userid", email);
@@ -85,7 +89,7 @@ public class PhotographyController {
 			
 			userService.registerUserInfo(regUserMap);
 			USER_NO = regUserMap.get("USER_NO").toString();
-			System.out.println("USER_NO : "+ USER_NO);
+			logger.debug("USER_NO : "+ USER_NO);
 			regUserMap.put("USER_NO", USER_NO);		
 			resultMap= CommonUtils.createResultMap("200", "success", regUserMap);	
 		} catch(Exception e) {
@@ -127,8 +131,8 @@ public class PhotographyController {
 			String uuid="";
 			uuid = param.get("uuid").toString().trim();
 			email = param.get("email").toString().trim();
-			System.out.println("uuid : "+uuid);
-			System.out.println("email : "+email);
+			logger.debug("uuid : "+uuid);
+			logger.debug("email : "+email);
 			
 			Map<String,Object> emailCheckMap = new HashMap<>();
 			emailCheckMap.put("uuid", uuid);
@@ -137,16 +141,16 @@ public class PhotographyController {
 			
 			String checkFlag = "";
 			if(userInfoMap.isEmpty()) {
-				System.out.println("601 : 이메일없음");
+				logger.debug("601 : 이메일없음");
 				checkFlag="601";				
 			}else {
 				String rstUUID =  userInfoMap.get("UUID").toString();
 				if(uuid.equals(rstUUID)==false) {
-					System.out.println("다른기기에서 사용중입니다.");
+					logger.debug("다른기기에서 사용중입니다.");
 					
 					checkFlag="602";
 				}else {				
-					System.out.println("현재기기에서  사용중입니다.");
+					logger.debug("현재기기에서  사용중입니다.");
 					checkFlag="603";
 				}
 			}
@@ -189,18 +193,18 @@ public class PhotographyController {
 			uuid= param.get("uuid").toString();
 			email= param.get("email").toString();
 			
-			System.out.println("uuid : "+uuid);
-			System.out.println("email : "+email);
+			logger.debug("uuid : "+uuid);
+			logger.debug("email : "+email);
 			
 			//1.인증키생성
 			String tempKey = authUtil.generateKey(8);
-			System.out.println("authKey:"+tempKey);
+			logger.debug("authKey:"+tempKey);
 			
 			//2.uuid,email로 tb_auth 를 조회해서,
 			Map<String,Object> searchAuthMap =  new HashMap<>();
 			searchAuthMap.put("uuid",uuid);
 			
-			System.out.println(authService.getAuthPK_BY_UUID(searchAuthMap));
+			logger.debug(authService.getAuthPK_BY_UUID(searchAuthMap));
 
 				
 			
@@ -217,7 +221,7 @@ public class PhotographyController {
 				
 				
 				//(i)정보가없으면 insert
-				System.out.println("AUTH테이블에 기존데이터없음 ");
+				logger.debug("AUTH테이블에 기존데이터없음 ");
 				int insertCnt = authService.insertAuthInfo(rstMap);
 				if(insertCnt==0) {
 					throw new Exception("");
@@ -233,7 +237,7 @@ public class PhotographyController {
 				rstMap.put("authPK",rstMap.get("AUTH_PK"));
 				
 				//(ii)정보가있으면 update 
-				System.out.println("AUTH테이블에 기존데이터있음 ");
+				logger.debug("AUTH테이블에 기존데이터있음 ");
 				authService.updateAuthInfo(rstMap);
 			}
 			
@@ -284,17 +288,17 @@ public class PhotographyController {
 			String db_AuthNum = authRstMap.get("AUTH_NUM").toString();
 			
 			if(p_authNum.equals(db_AuthNum)==false) {
-				System.out.println("인증번호불일치");
+				logger.debug("인증번호불일치");
 				rstFlag = "611";
 			}else {
 				long authExpired = Long.parseLong(authRstMap.get("AUTH_EXPIRED").toString());
 				long curTimeMill = System.currentTimeMillis();
 				
 				if(authExpired<curTimeMill) {
-					System.out.println("유효기간만료");
+					logger.debug("유효기간만료");
 					rstFlag = "612";
 				}else {
-					System.out.println("인증성공");
+					logger.debug("인증성공");
 					rstFlag = "610";
 				}
 			}			
@@ -343,7 +347,7 @@ public class PhotographyController {
 			  
 			//3.없으면  예외처리한다.
 			  if(rstMap==null) {
-				  System.out.println("해당기기로 등록된 유저정보없음");
+				  logger.debug("해당기기로 등록된 유저정보없음");
 				  rstFlag="UNREGISTERD_01";
 			  }else {
 				  
@@ -355,15 +359,15 @@ public class PhotographyController {
 //				  int rstUserGrade = Integer.parseInt(rstMap.get("USER_GRADE").toString());
 				  
 				  if(rstEmail.trim().equals("")) {
-					  System.out.println("기기변경후 아직 이메일없음");
+					  logger.debug("기기변경후 아직 이메일없음");
 					  rstFlag="UNREGISTERD_02";
 					  
 				  }else if(p_email.equals(rstEmail)==false) {
-					  System.out.println("이메일이 일치하지 않습니다");
+					  logger.debug("이메일이 일치하지 않습니다");
 					  rstFlag="MISMATCH_02";
 					  
 				  }else {//4.있으면 토큰생성한다. 
-					  System.out.println("로그인성공");
+					  logger.debug("로그인성공");
 					  
 					  Map<String,Object> jwtParamMap =  new HashMap<>();
 					  jwtParamMap.put("user_no", rstUserNo);
@@ -462,12 +466,12 @@ public class PhotographyController {
 		try {
 			
 			String testJWT =  request.getAttribute("Authorization").toString();
-			System.out.println("Authorization : "+testJWT);
+			logger.debug("Authorization : "+testJWT);
 			
 			String var1 = param.get("var1").toString();
 			String var2 = param.get("var2").toString();
-			System.out.println("var1 : "+var1);
-			System.out.println("var2 : "+var2);
+			logger.debug("var1 : "+var1);
+			logger.debug("var2 : "+var2);
 			
 			
 			
@@ -608,7 +612,7 @@ public class PhotographyController {
 		Map<String, Object> param = reqParam.getParameterMap();
 		String resultCode ="0";
 		String resultstatus  ="";
-			System.out.println("getMyResult");
+			logger.debug("getMyResult");
 		try {
 			List<Map<String,Object>> list = new ArrayList<>();
 			
@@ -645,13 +649,13 @@ public class PhotographyController {
 		Map<String, Object> param = reqParam.getParameterMap();
 		String resultCode ="0";
 		String resultstatus  ="";
-			System.out.println("getMyResult");
+			logger.debug("getMyResult");
 		try {
 			List<Map<String,Object>> list = new ArrayList<>();
 			
-			System.out.println("list : "+list);
-			System.out.println("list.size()"+list.size());
-			System.out.println("list.isEmpty() : "+list.isEmpty());
+			logger.debug("list : "+list);
+			logger.debug("list.size()"+list.size());
+			logger.debug("list.isEmpty() : "+list.isEmpty());
 			
 			resultMap= CommonUtils.createResultMap("200", "success", list);	
 		} catch(Exception e) {
@@ -688,7 +692,7 @@ public class PhotographyController {
 		try {
 			
 			//변수받는부분
-			System.out.println(param.get("var1").toString());
+			logger.debug(param.get("var1").toString());
 			
 			//암호화하기
 			
@@ -742,6 +746,33 @@ public class PhotographyController {
 		return rst;
 	}
 	
-
+	//test
+	@RequestMapping(value = "/test.do", method = RequestMethod.POST, produces = "application/text; charset=utf8" )
+	public String get(RequestCommand reqParam, HttpSession session) {
+		Map<String, Object> result = new HashMap<String, Object>();
+		Map<String, Object> header= new HashMap<String, Object>();
+		Map<String, Object> body= new HashMap<String, Object>();
+		Map<String, Object> param = reqParam.getParameterMap();
+		
+		header.put("retCode", 0);
+		header.put("errMsg", "");
+		
+		try {
+			List<Map<String, Object>> data =  testDao.getTestListMap();	
+			body.put("data", data);
+		} catch(Exception e) {
+			logger.error(e.getMessage());
+			e.printStackTrace();
+			header.put("retCode", 404);
+			header.put("errMsg", "error");
+		}
+		
+		result.put("header", header);
+		result.put("body", body);
+		
+		String rst = new Gson().toJson(result);
+		
+		return rst;
+	}
 
 }
