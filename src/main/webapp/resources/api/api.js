@@ -319,34 +319,6 @@ var api =
 						"resp": '{"retCode": 0,"errMsg": "","retBody": ""}'
 					}
 				},
-				{
-					"name": "암호화테스트",
-					"label": "warning", 	//success, primary, danger, warning
-					"desc": "/rest/encryptTest.do",
-					"progress":{ 
-						"rate":"100",
-						"desc":""
-					},
-					"info": {
-						"url": "/rest/encryptTest.do",
-						"reqParam": [
-							{
-								"name":"변수명1", "type":"string", "req":"yes", "value":"변수명1",
-								"desc":"변수명1"
-							},
-							{
-								"name":"변수명2", "type":"string", "req":"yes", "value":"변수명2",
-								"desc":"변수명2"
-							},
-						],
-						"respParam": [
-						]
-					},
-					"sample": {
-						"desc": "",
-						"resp": '{"retCode": 0,"errMsg": "","retBody": ""}'
-					}
-				},
 				{//리턴맵테스트
 					"name": "returnMap.do",
 					"label": "warning", 	//success, primary, danger, warning
@@ -372,7 +344,7 @@ var api =
 					}
 				},
 				{//AES256암호화
-					"name": "aesEncode.do",
+					"name": "AES256암호화",
 					"label": "success", 	//success, primary, danger, warning
 					"desc": "/rest/aesEncode.do",
 					"progress":{ 
@@ -396,7 +368,7 @@ var api =
 					}
 				},
 				{//AES256복호화
-					"name": "aesDecode.do",
+					"name": "AES256복호화",
 					"label": "success", 	//success, primary, danger, warning
 					"desc": "/rest/aesDecode.do",
 					"progress":{ 
