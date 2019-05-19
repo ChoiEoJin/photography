@@ -10,8 +10,7 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -30,7 +29,7 @@ import com.google.gson.Gson;
 @RestController
 @RequestMapping("/rest")
 public class PhotographyController {
-	private static final Logger logger = LoggerFactory.getLogger(PhotographyController.class);
+	private static final Logger logger = Logger.getLogger(PhotographyController.class);
 
 	
 	@Inject

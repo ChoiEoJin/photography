@@ -37,13 +37,7 @@
 		<beans:property name="secretKey" value="${jwt.secretkey}"/>
 	</beans:bean> 
 	
-     <mvc:interceptors>
-     <!-- 
-        <mvc:interceptor>
-            <mvc:mapping path="/**"/>
-            <beans:bean id="loggerInterceptor" class="com.collabo.photography.common.logger.LoggerInterceptor"></beans:bean>
-        </mvc:interceptor>
-      -->																	
+ 	<mvc:interceptors>																
   	<mvc:interceptor>
 			<mvc:mapping path="/**"/>
 			<beans:bean id="loginInterceptor" class="com.collabo.photography.common.interceptor.LoginInterceptor">
@@ -65,7 +59,7 @@
 		<beans:property name="maxUploadSize" value="10485760"></beans:property>
 	</beans:bean>
 	
-	<beans:bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping"/>    
+     <beans:bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping"/>
     <beans:bean class="org.springframework.web.servlet.view.BeanNameViewResolver">
       <beans:property name="order" value="0"/>
     </beans:bean>
