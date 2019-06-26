@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="com.collabo.photography.service.mapper.AuthMapper">
+<select id="getAuthPK_BY_UUID" parameterType="HashMap" resultType="HashMap">
+select AUTH_PK 
+  from TB_AUTH
+ where UUID = #{uuid}
+</select> 
+
+<insert id="insertAuthInfo" parameterType="HashMap">
+	insert into TB_AUTH
+	(UUID,
+	AUTH_NUM,
+	AUTH_EXPIRED,
+	CREATED_BY,
+	CREATED,
+	UPDATED_BY,
+	UPDATED)
+	values(
+	#{uuid},
+	#{authNum},
+	#{authExpired},
+	#{createdBy},
+	#{created},
+	#{updatedBy},
+	#{updated}
+	)
+</insert>
+<update id="updateAuthInfo" parameterType="HashMap">
+update TB_AUTH 
+set 
+AUTH_NUM=#{authNum},
+AUTH_EXPIRED=#{authExpired},
+UPDATED_BY=#{updatedBy},
+UPDATED=#{updated}
+where AUTH_PK=#{authPK}
+</update>
+
+<select id="getAuthInfoByUUID_EMAIL" parameterType="HashMap" resultType="HashMap">
+select * 
+from TB_AUTH
+where UUID=#{uuid}
+  
+</select>
+</mapper>

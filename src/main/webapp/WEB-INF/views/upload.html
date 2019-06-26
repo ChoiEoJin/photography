@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>사진올리기</title>
+</head>
+<body>
+사진올리기
+<form name="myForm" action="/rest/registerMyProfile.do" method="POST" enctype="multipart/form-data">
+	<input type="file" name="REGIST_IMAGE1">
+	<input type="file" name="REGIST_IMAGE2">
+	<input type="text" name="REGIST_COMMENT" value="새학기 프사뭐가좋을까요?">
+	<input type="text" name="SELECTER_CNT" value="3">
+	<input type="text" name="SELECTER_GENDER" value="GD2">
+	<input type="text" name="SELECTER_OLD" value="AG6">
+	<input type="text" name="END_DATE" value="10분후">
+	<input type="submit" value="올리기">
+</form>
+
+
+</body>
+</html>

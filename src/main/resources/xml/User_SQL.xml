@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="com.collabo.photography.service.mapper.UserMapper">
+ <insert id="registerUserInfo" parameterType="java.util.HashMap" useGeneratedKeys="true" keyColumn="USER_NO" keyProperty="USER_NO">
+ insert into TB_USER 
+ (USER_ID,
+  UUID,
+  USER_EMAIL,
+  USER_GENDER,
+  USER_BIRTH,
+  USER_GRADE,
+  CREATED_BY,
+  CREATED,
+  UPDATED_BY,
+  UPDATED)
+  values  
+  (#{userid},
+  #{uuid},
+  #{email},
+  #{gender},
+  #{birth},
+  #{grade},
+  #{email},
+  #{created},
+  #{email},
+  #{updated}
+  )
+ </insert>
+
+<select id="getUUID_By_EMAIL" parameterType="HashMap" resultType="HashMap">
+select UUID,
+	   USER_EMAIL
+  from TB_USER
+ where USER_EMAIL=#{email}
+</select>
+
+
+
+</mapper>

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="com.collabo.photography.service.mapper.RegisterMapper">
+<!-- 사진등록 -->
+ <insert id="registerProfile" parameterType="HashMap">
+ insert into TB_REGIST	
+ (
+ REGIST_USER,
+ REGIST_IMAGE1,
+ REGIST_IMAGE2,
+ REGIST_COMMENT,
+ REGIST_AUTH_CHK,
+ SELECTER_CNT,
+ SELECTER_BADGE,
+ VOTE_END_YN,
+ END_DATE,
+ CREATED_BY,
+ CREATED,
+ UPDATED_BY,
+ UPDATED
+ )
+ values(
+ #{REGIST_USER},
+ #{REGIST_IMAGE1},
+ #{REGIST_IMAGE2},
+ #{REGIST_COMMENT},
+ #{REGIST_AUTH_CHK},
+ #{SELECTER_CNT},
+ #{SELECTER_BADGE},
+ #{VOTE_END_YN},
+ #{END_DATE},
+ #{CREATED_BY},
+ #{CREATED},
+ #{UPDATED_BY},
+ #{UPDATED}
+ )
+ </insert>
+
+<!-- 미승인목록 -->
+<select id="getUnauthProfileList" resultType="HashMap">
+select * from TB_REGIST	 where REGIST_AUTH_CHK is NULL
+</select>
+
+<!-- 승인/비승인 -->
+<update id="updateRegistAuthChk" parameterType="HashMap">
+update TB_REGIST set REGIST_AUTH_CHK = #{registAuthChk} where REGIST_NO = #{registerNo}
+</update>
+
+<!-- 투표하기 -->
+<insert id="registVOTE" parameterType="HashMap">
+insert into TB_VOTE
+(
+REGIST_NO,
+VOTE,
+VOTE_WHO,
+CREATED_BY,
+CREATED,
+UPDATED_BY,
+UPDATED
+)
+values(
+#{registNo},
+#{registVote},
+#{userNo},
+#{userEmail},
+#{created},
+#{userEmail},
+#{updated}
+)
+</insert>
+
+<!-- 프로필등록 고민고민 상세보기 -->
+<select id="getProfileInfo" parameterType="integer" resultType="HashMap">
+select * from TB_REGIST
+where REGIST_NO = #{value}
+</select>
+
+
+<select id="getAgeCode" parameterType="string" resultType="HashMap">
+select CODE_NAME,CODE_VAL from TB_COMMON_CODE
+where CODE_GROUP = 'ALL' or CODE_GROUP = 'USER_AGE';
+</select>
+
+<select id="getGenderCode" parameterType="string" resultType="HashMap">
+select CODE_NAME,CODE_VAL from TB_COMMON_CODE
+where CODE_GROUP = 'ALL' or CODE_GROUP = 'USER_GENDER';
+</select>
+
+
+<!-- 골라줘리스트  -->
+<select id="getChooseList" parameterType="String" resultType="HashMap">
+${value}
+</select>
+
+<select id="getMyVote" parameterType="HashMap" resultType="String">
+select VOTE_WHO from TB_VOTE where REGIST_NO=#{registNo} and VOTE_WHO=#{userNo}
+</select>
+
+<select id="getVoteList" parameterType="integer" resultType="HashMap">
+select REGIST_NO from TB_VOTE where REGIST_NO = #{value}
+</select>
+</mapper>

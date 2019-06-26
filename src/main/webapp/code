@@ -1,0 +1,17 @@
+601 이메일없음
+602 다른기기에서 사용중인이메일
+603 현재기기에서 사용중
+
+
+
+*서버에러 일으킬때
+
+
+
+
+*서버에러는 아니지만 정보분류
+UNREGISTERD_01 : 파라미터 uuid로 ,DB에  등록되지않음
+UNREGISTERD_02 : 이메일이 등록되지않음
+
+MISMATCH_01: uuid 가 DB uuid와 일치하지않음
+MISMATCH_02: email 이 DB email과 일치하지않음
