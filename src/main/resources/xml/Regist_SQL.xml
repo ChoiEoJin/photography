@@ -95,7 +95,7 @@ where CODE_GROUP = 'ALL' or CODE_GROUP = 'USER_GENDER';
 ${value}
 </select>
 
-<select id="getMyVote" parameterType="HashMap" resultType="String">
+<select id="getMyVote" parameterType="HashMap" resultType="integer">
 select VOTE_WHO from TB_VOTE where REGIST_NO=#{registNo} and VOTE_WHO=#{userNo}
 </select>
 

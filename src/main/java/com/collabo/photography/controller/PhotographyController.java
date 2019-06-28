@@ -537,7 +537,7 @@ public class PhotographyController {
 			logger.debug("jwtObj : "+jwtObj);
 			Jws<Claims> claims = jwtUtil.getClaims(jwtObj);
 			logger.debug("claims :" +claims);
-			String userNo = claims.getBody().get("user_no").toString();
+			int userNo = Integer.parseInt(claims.getBody().get("user_no").toString()); 
 			String userId = claims.getBody().get("user_id").toString();
 			String userEmail = claims.getBody().get("user_email").toString();
 			logger.debug("3");
@@ -738,6 +738,16 @@ public class PhotographyController {
 		header.put("errMsg", "");
 		try {			
 			List<Map<String,Object>> unauthProfileList  = registerService.getUnauthProfileList();
+			//복호화 
+			for(int i=0;i<unauthProfileList.size();i++) {
+				Map<String,Object> profileMap = unauthProfileList.get(i);
+				String decodedImg1 = AES256Util.aesDecode(profileMap.get("REGIST_IMAGE1").toString());
+				String decodedImg2 = AES256Util.aesDecode(profileMap.get("REGIST_IMAGE2").toString());
+				
+				profileMap.put("REGIST_IMAGE1", decodedImg1);
+				profileMap.put("REGIST_IMAGE2", decodedImg2);
+				
+			}
 			body.put("unauthProfileList", unauthProfileList);
 		} catch(Exception e) {
 			logger.error(e.getMessage());
@@ -821,7 +831,7 @@ public class PhotographyController {
 			//로그인유저정보
 			String jwtObj = (String) request.getAttribute("jwt");
 			Jws<Claims> claims = jwtUtil.getClaims(jwtObj);
-			String userNo = claims.getBody().get("user_no").toString();
+			int userNo = Integer.parseInt(claims.getBody().get("user_no").toString()); 
 			String userId = claims.getBody().get("user_id").toString();
 			String userEmail = claims.getBody().get("user_email").toString();
 			
@@ -863,7 +873,7 @@ public class PhotographyController {
 			//1.로그인유저정보
 			String jwtObj = (String) request.getAttribute("jwt");
 			Jws<Claims> claims = jwtUtil.getClaims(jwtObj);
-			String userNo = claims.getBody().get("user_no").toString();
+			int userNo = Integer.parseInt(claims.getBody().get("user_no").toString()); 
 			String userId = claims.getBody().get("user_id").toString();
 			String userEmail = claims.getBody().get("user_email").toString();
 //			String userBadge = claims.getBody().get("user_badge").toString();
@@ -928,6 +938,8 @@ public class PhotographyController {
 				subParamMap.put("userNo", userNo);
 				String myvote = registerService.getMyVote(subParamMap);
 				
+				logger.debug("myvote : "+myvote);
+				
 				if(myvote.equals(userNo)) {
 					profileList.remove(i);
 				}
@@ -970,10 +982,9 @@ public class PhotographyController {
 		return rst;
 	}
 	
-
-	//특정프로필투표결과
-	@RequestMapping(value = "/resultVote.do", method = RequestMethod.POST, produces = "application/text; charset=utf8" )
-	public String resultVote(RequestCommand reqParam, HttpSession session,HttpServletRequest request) {
+	//내 신청결과
+	@RequestMapping(value = "/getMyResult.do", method = RequestMethod.POST, produces = "application/text; charset=utf8" )
+	public String getMyResult(RequestCommand reqParam, HttpSession session,HttpServletRequest request) {
 		Map<String, Object> result = new HashMap<String, Object>();
 		Map<String, Object> header= new HashMap<String, Object>();
 		Map<String, Object> body= new HashMap<String, Object>();
@@ -985,7 +996,7 @@ public class PhotographyController {
 			//로그인유저정보
 //			String jwtObj = (String) request.getAttribute("jwt");
 //			Jws<Claims> claims = jwtUtil.getClaims(jwtObj);
-//			String userNo = claims.getBody().get("user_no").toString();
+//			int userNo = Integer.parseInt(claims.getBody().get("user_no").toString()); 
 //			String userId = claims.getBody().get("user_id").toString();
 //			String userEmail = claims.getBody().get("user_email").toString();
 			
@@ -1007,5 +1018,47 @@ public class PhotographyController {
 		result.put("body", body);
 		String rst = new Gson().toJson(result);	
 		return rst;
-	}
+	}	
+	
+	
+	
+	
+
+//	//특정프로필투표결과
+//	@RequestMapping(value = "/resultVote.do", method = RequestMethod.POST, produces = "application/text; charset=utf8" )
+//	public String resultVote(RequestCommand reqParam, HttpSession session,HttpServletRequest request) {
+//		Map<String, Object> result = new HashMap<String, Object>();
+//		Map<String, Object> header= new HashMap<String, Object>();
+//		Map<String, Object> body= new HashMap<String, Object>();
+//		Map<String, Object> param = reqParam.getParameterMap();
+//		header.put("retCode", 0);
+//		header.put("errMsg", "");
+//		try {
+//			
+//			//로그인유저정보
+////			String jwtObj = (String) request.getAttribute("jwt");
+////			Jws<Claims> claims = jwtUtil.getClaims(jwtObj);
+//				int userNo = Integer.parseInt(claims.getBody().get("user_no").toString()); 
+////			String userId = claims.getBody().get("user_id").toString();
+////			String userEmail = claims.getBody().get("user_email").toString();
+//			
+//			int registNo =  Integer.parseInt(param.get("REGIST_NO").toString());
+//			List<Map<String,Object>> resultVoteList = registerService.getVoteList(registNo);
+//
+//			logger.debug("list size : "+resultVoteList.size());
+//			
+//			resultVoteList.remove(1);
+//			logger.debug("list size : "+resultVoteList.size());
+//			
+//		} catch(Exception e) {
+//			logger.error(e.getMessage());
+//			e.printStackTrace();
+//			header.put("retCode", 404);
+//			header.put("errMsg", "error");
+//		}
+//		result.put("header", header);
+//		result.put("body", body);
+//		String rst = new Gson().toJson(result);	
+//		return rst;
+//	}
 }

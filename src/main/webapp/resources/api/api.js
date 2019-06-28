@@ -239,15 +239,15 @@ var api =
 						"url": "/rest/registerMyProfile.do",
 						"reqParam": [
 							{
-								"name":"REGIST_IMAGE1", "type":"string", "req":"yes", "value":"abcd edf ggg",
+								"name":"REGIST_IMAGE1", "type":"string", "req":"yes", "value":"img1_hashCode",
 								"desc":"1번이미지"
 							},
 							{
-								"name":"REGIST_IMAGE2", "type":"string", "req":"yes", "value":"aaddd",
+								"name":"REGIST_IMAGE2", "type":"string", "req":"yes", "value":"img2_hashCode",
 								"desc":"2번이미지"
 							},
 							{
-								"name":"REGIST_COMMENT", "type":"string", "req":"yes", "value":"asdsad",
+								"name":"REGIST_COMMENT", "type":"string", "req":"yes", "value":"새학기 사진 어떤게좋을까요?",
 								"desc":"등록코멘트"
 							},
 							{
@@ -410,6 +410,26 @@ var api =
 					},
 					"info": {
 						"url": "/rest/getChooseList.do",
+						"reqParam": [
+						],
+						"respParam": [
+						]
+					},
+					"sample": {
+						"desc": "",
+						"resp": '{"retCode": 0,"errMsg": "","retBody": ""}'
+					}
+				},
+				{
+					"name": "내 신청결과",
+					"label": "success", 	//success, primary, danger, warning
+					"desc": "/rest/getMyResult.do",
+					"progress":{ 
+						"rate":"100",
+						"desc":""
+					},
+					"info": {
+						"url": "/rest/getMyResult.do",
 						"reqParam": [
 						],
 						"respParam": [

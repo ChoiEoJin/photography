@@ -77,12 +77,12 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 			Map<String,Object> paramMap  = new HashMap<>();
 			
 			//강제로그인시키는효과땜에 이렇게해둠. 나중에 고쳐야함
-			String test1 = "test1";
-			String test2 = "test2";
-			String test3= "test3";
-			paramMap.put("user_no", test1);
-			paramMap.put("user_id", test2);
-			paramMap.put("user_email", test3);
+			int t_user_no = 1;
+			String t_user_id = "yms3684@naver.com";
+			String t_user_email= "yms3684@naver.com";
+			paramMap.put("user_no", t_user_no);
+			paramMap.put("user_id", t_user_id);
+			paramMap.put("user_email", t_user_email);
 			
 			String testJWT  = jwt.createJWT(paramMap);
 			request.setAttribute("jwt",testJWT);
