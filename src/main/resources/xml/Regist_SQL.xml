@@ -96,7 +96,7 @@ ${value}
 </select>
 
 <select id="getMyVote" parameterType="HashMap" resultType="integer">
-select VOTE_WHO from TB_VOTE where REGIST_NO=#{registNo} and VOTE_WHO=#{userNo}
+select count(VOTE_WHO) from TB_VOTE where REGIST_NO=#{registNo} and VOTE_WHO=#{userNo}
 </select>
 
 <select id="getVoteList" parameterType="integer" resultType="HashMap">
@@ -105,6 +105,10 @@ select REGIST_NO from TB_VOTE where REGIST_NO = #{value}
 
 <select id="getMyRegistList" parameterType="integer" resultType="HashMap">
 select * from TB_REGIST where REGIST_USER = #{value}
+</select>
+
+<select id="getBeingVotedCnt" parameterType="integer" resultType="integer">
+select count(VOTE_WHO) from TB_VOTE where REGIST_NO=#{value}
 </select>
 
 </mapper>

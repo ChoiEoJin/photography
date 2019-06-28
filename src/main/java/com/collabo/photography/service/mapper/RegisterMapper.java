@@ -30,4 +30,6 @@ public interface RegisterMapper {
 
 	List<Map<String, Object>> getMyRegistList(int userNo);
 
+	int getBeingVotedCnt(int registNo);
+
 }

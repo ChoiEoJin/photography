@@ -940,7 +940,8 @@ public class PhotographyController {
 				
 				logger.debug("myvote : "+myvote);
 				
-				if(myvote==userNo) {
+
+				if(myvote>0) {
 					profileList.remove(i);
 				}
 				
@@ -985,7 +986,8 @@ public class PhotographyController {
 	//내 신청결과
 	@RequestMapping(value = "/getMyResult.do", method = RequestMethod.POST, produces = "application/text; charset=utf8" )
 	public String getMyResult(RequestCommand reqParam, HttpSession session,HttpServletRequest request) {
-		Map<String, Object> result = new HashMap<String, Object>();
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		
 		Map<String, Object> header= new HashMap<String, Object>();
 		Map<String, Object> body= new HashMap<String, Object>();
 		Map<String, Object> param = reqParam.getParameterMap();
@@ -1011,16 +1013,58 @@ public class PhotographyController {
 				//FLAG를 던져주자
 				
 			}else {//1-2) 신청목록이 있는경우
-				logger.debug("신청목록이 있습니다.");
+				logger.debug("신청목록이 있습니다."); 
 				
-				//2-1)끝난 목록
-				// myRegistList중에서   타겟테이블: 
-				// i)만료되었거나, ii)인원수를 모두채웠거나
+
+				List<Map<String,Object>> deadLineList = new ArrayList<>(); //마감목록
+				List<Map<String,Object>> beingVotedList = new ArrayList<>(); //진행목록
 				
-				//2-2)진행중인목록
-				// 내꺼중에서 만료되지도 않았고, 인원수도 다안찬 목록들 
+				for(int i = 0 ; i<myRegistList.size();i++) {
+
+					Map<String,Object> myRegistMap = myRegistList.get(i);
+					
+					String decodedImg1 = AES256Util.aesDecode(myRegistMap.get("REGIST_IMAGE1").toString());
+					String decodedImg2 = AES256Util.aesDecode(myRegistMap.get("REGIST_IMAGE2").toString());
+					
+					myRegistMap.put("REGIST_IMAGE1", decodedImg1);
+					myRegistMap.put("REGIST_IMAGE2", decodedImg2);
+					
+					int registNo = Integer.parseInt(myRegistList.get(i).get("REGIST_NO").toString());//조회성분
+					int selCntOpt = Integer.parseInt(myRegistList.get(i).get("SELECTER_CNT").toString());//조건
+					String endDate =  myRegistList.get(i).get("END_DATE").toString();//조건
+					
+					int beingVotedCnt = registerService.getBeingVotedCnt(registNo);//현재 득표수
+					String nowDate = new SimpleDateFormat ( "yyyy-MM-dd HH:mm:ss").format(new Date());
+					
+					logger.debug("registNo : "+registNo);
+					logger.debug("selCntOpt : "+selCntOpt);
+					logger.debug("endDate : "+ endDate);
+					logger.debug("현재득표수 : " + beingVotedCnt);
+					logger.debug("nowDate : " + nowDate);
+					
+					//2-1)마감 목록
+					// myRegistList중에서   타겟테이블: 
+					// i)만료되었거나, ii)인원수를 모두채웠거나 END_YN='Y'
+					
+					boolean dateIsExpired = (endDate.compareTo(nowDate)<=0)?true:false;//만료됬는가?
+					boolean meetSelCnt = (beingVotedCnt >= selCntOpt)?true:false; //선택자수는 만족되었는가?
+					
+					String voteEndYN = myRegistList.get(i).get("VOTE_END_YN").toString();
+					
+					if(voteEndYN.equals("N")) {
+						if(dateIsExpired==true || meetSelCnt==true) {//마감목록 						
+							deadLineList.add(myRegistMap);						
+						}else {//진행중인목록
+							beingVotedList.add(myRegistMap);
+						}
+					}
 				
-			}
+				}
+				Map<String,Object> tempMap = new HashMap<String,Object>();
+				tempMap.put("deadLineList", deadLineList);
+				tempMap.put("beingVotedList", beingVotedList);
+				resultMap= CommonUtils.createResultMap("200", "success", tempMap);
+			}//있는경우
 			
 			
 		} catch(Exception e) {
@@ -1029,16 +1073,12 @@ public class PhotographyController {
 			header.put("retCode", 404);
 			header.put("errMsg", "error");
 		}
-		result.put("header", header);
-		result.put("body", body);
-		String rst = new Gson().toJson(result);	
+		resultMap.put("header", header);
+		resultMap.put("body", body);
+		String rst = new Gson().toJson(resultMap);	
 		return rst;
 	}	
 	
-	
-	
-	
-
 //	//특정프로필투표결과
 //	@RequestMapping(value = "/resultVote.do", method = RequestMethod.POST, produces = "application/text; charset=utf8" )
 //	public String resultVote(RequestCommand reqParam, HttpSession session,HttpServletRequest request) {
