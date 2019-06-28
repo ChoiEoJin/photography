@@ -936,11 +936,11 @@ public class PhotographyController {
 				Map<String,Object> subParamMap =  new HashMap<String,Object>();
 				subParamMap.put("registNo", registNo);
 				subParamMap.put("userNo", userNo);
-				String myvote = registerService.getMyVote(subParamMap);
+				int myvote = registerService.getMyVote(subParamMap);
 				
 				logger.debug("myvote : "+myvote);
 				
-				if(myvote.equals(userNo)) {
+				if(myvote==userNo) {
 					profileList.remove(i);
 				}
 				

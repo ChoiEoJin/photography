@@ -26,6 +26,6 @@ public interface RegisterMapper {
 
 	List<Map<String, Object>> getVoteList(int registNo);//테스트용
 
-	String getMyVote(Map<String, Object> subParamMap);
+	int getMyVote(Map<String, Object> subParamMap);
 
 }
