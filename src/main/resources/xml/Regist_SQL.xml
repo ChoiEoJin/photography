@@ -102,4 +102,9 @@ select VOTE_WHO from TB_VOTE where REGIST_NO=#{registNo} and VOTE_WHO=#{userNo}
 <select id="getVoteList" parameterType="integer" resultType="HashMap">
 select REGIST_NO from TB_VOTE where REGIST_NO = #{value}
 </select>
+
+<select id="getMyRegistList" parameterType="integer" resultType="HashMap">
+select * from TB_REGIST where REGIST_USER = #{value}
+</select>
+
 </mapper>

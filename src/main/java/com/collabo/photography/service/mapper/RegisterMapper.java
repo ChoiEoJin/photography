@@ -28,4 +28,6 @@ public interface RegisterMapper {
 
 	int getMyVote(Map<String, Object> subParamMap);
 
+	List<Map<String, Object>> getMyRegistList(int userNo);
+
 }

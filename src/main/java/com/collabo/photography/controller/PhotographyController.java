@@ -994,19 +994,34 @@ public class PhotographyController {
 		try {
 			
 			//로그인유저정보
-//			String jwtObj = (String) request.getAttribute("jwt");
-//			Jws<Claims> claims = jwtUtil.getClaims(jwtObj);
-//			int userNo = Integer.parseInt(claims.getBody().get("user_no").toString()); 
-//			String userId = claims.getBody().get("user_id").toString();
-//			String userEmail = claims.getBody().get("user_email").toString();
+			String jwtObj = (String) request.getAttribute("jwt");
+			Jws<Claims> claims = jwtUtil.getClaims(jwtObj);
+			int userNo = Integer.parseInt(claims.getBody().get("user_no").toString()); 
+			String userId = claims.getBody().get("user_id").toString();
+			String userEmail = claims.getBody().get("user_email").toString();
 			
-			int registNo =  Integer.parseInt(param.get("REGIST_NO").toString());
-			List<Map<String,Object>> resultVoteList = registerService.getVoteList(registNo);
+			Map<String,Object> subParam  = new HashMap<String,Object>();
 
-			logger.debug("list size : "+resultVoteList.size());
+			//1.신청목록이 있는지 없는지
+			List<Map<String,Object>> myRegistList =  registerService.getMyRegistList(userNo);
+		
+			if(myRegistList.size()==0) {	//1-1) 신청목록이 없는경우 
+				logger.debug("신청목록이 없습니다.");
+				
+				//FLAG를 던져주자
+				
+			}else {//1-2) 신청목록이 있는경우
+				logger.debug("신청목록이 있습니다.");
+				
+				//2-1)끝난 목록
+				// myRegistList중에서   타겟테이블: 
+				// i)만료되었거나, ii)인원수를 모두채웠거나
+				
+				//2-2)진행중인목록
+				// 내꺼중에서 만료되지도 않았고, 인원수도 다안찬 목록들 
+				
+			}
 			
-			resultVoteList.remove(1);
-			logger.debug("list size : "+resultVoteList.size());
 			
 		} catch(Exception e) {
 			logger.error(e.getMessage());
