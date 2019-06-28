@@ -32,4 +32,10 @@ public interface RegisterMapper {
 
 	int getBeingVotedCnt(int registNo);
 
+	int insertBadge(Map<String, Object> subParam);
+
+	String getBadgeVal(String badgeName);
+
+	int terminateMyRegist(Map<String, Object> updateParam);
+
 }

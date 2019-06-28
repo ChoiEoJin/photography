@@ -4,8 +4,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.Resource;
 import javax.inject.Inject;
@@ -1116,4 +1118,178 @@ public class PhotographyController {
 //		String rst = new Gson().toJson(result);	
 //		return rst;
 //	}
+	
+	//뱃지만들기 경우의수
+	@RequestMapping(value = "/insertBadge.do", method = RequestMethod.POST, produces = "application/text; charset=utf8" )
+	public String insertBadge(RequestCommand reqParam, HttpSession session,HttpServletRequest request) {
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		
+		Map<String, Object> header= new HashMap<String, Object>();
+		Map<String, Object> body= new HashMap<String, Object>();
+		Map<String, Object> param = reqParam.getParameterMap();
+		header.put("retCode", 0);
+		header.put("errMsg", "");
+		try {
+			
+			Map<String,Object> badgeMap = new HashMap<String,Object>();
+			badgeMap.put("AAA", "모든연령대+모든성별");
+			badgeMap.put("AAM", "모든연령대+모든남성");
+			badgeMap.put("AAF", "모든연령대+모든여성");
+			
+			Object[] arrBadge = badgeMap.keySet().toArray();
+			for(int i=0; i<arrBadge.length;i++) {			
+				String badgeName = arrBadge[i].toString();
+				String badgeVal = badgeMap.get(badgeName).toString();				
+				Map<String,Object> subParam  = new HashMap<String,Object>();
+				subParam.put("BADGE_NAME", badgeName);
+				subParam.put("BADGE_VAL", badgeVal);
+				int cnt = registerService.insertBadge(subParam);
+			}
+			
+			Map<String,Object> mapAgeQ = new HashMap<String,Object>();
+			Map<String,Object> mapAgeR = new HashMap<String,Object>();
+			Map<String,Object> mapGender = new HashMap<String,Object>();
+
+			
+			mapAgeQ.put("0", "0대");
+			mapAgeQ.put("1", "10대");
+			mapAgeQ.put("2", "20대");
+			mapAgeQ.put("3", "30대");
+			mapAgeQ.put("4", "40대");
+			mapAgeQ.put("5", "50대");
+			mapAgeQ.put("6", "60대");
+			mapAgeQ.put("7", "70대");
+			mapAgeQ.put("8", "80대");
+			mapAgeQ.put("9", "90대");
+			
+			mapAgeR.put("A", "연령대누구나");
+			mapAgeR.put("E", "초반");
+			mapAgeR.put("M", "중반");
+			mapAgeR.put("L", "후반");
+			
+			mapGender.put("A", "남녀누구나");
+			mapGender.put("M", "남성");
+			mapGender.put("F", "여성");
+			
+			Object[] arrAgeQ = mapAgeQ.keySet().toArray();
+			Object[] arrAgeR = mapAgeR.keySet().toArray();
+			Object[] arrGender = mapGender.keySet().toArray();
+			
+			
+			//뱃지만들기
+			
+			int totCnt = 0;
+			
+			for (int i = 0 ; i<arrAgeQ.length; i++){
+			   for (int j = 0 ; j<arrAgeR.length ; j++){
+			       for (int k = 0 ; k<arrGender.length; k++){
+			    	   		String ageQ_key = (String) arrAgeQ[i];
+			    	   		String ageR_key = (String) arrAgeR[j];
+			    	   		String gender_key = (String) arrGender[k];
+			    	   		String badgeName = ageQ_key + ageR_key + gender_key ;
+			    	   		String badgeVal = (String) mapAgeQ.get(ageQ_key) +"+"
+			    	   						+ (String) mapAgeR.get(ageR_key) +"+"
+			    	   						+ (String) mapGender.get(gender_key);
+			    	   		
+			    	   		logger.debug("BADGE_NAME : "+badgeName + " , badgeVal : " + badgeVal);
+		
+			
+		    				Map<String,Object> subParam  = new HashMap<String,Object>();
+		    				subParam.put("BADGE_NAME", badgeName);
+		    				subParam.put("BADGE_VAL", badgeVal);
+		    				int cnt = registerService.insertBadge(subParam);
+			    			totCnt+=cnt;
+			           }
+			      }
+			}
+			
+			logger.debug("총 "+totCnt +"개 추가완료!");
+			
+		} catch(Exception e) {
+			logger.error(e.getMessage());
+			e.printStackTrace();
+			header.put("retCode", 404);
+			header.put("errMsg", "error");
+		}
+		resultMap.put("header", header);
+		resultMap.put("body", body);
+		String rst = new Gson().toJson(resultMap);	
+		return rst;
+	}
+	
+	//뱃지값 설명보여주기
+	@RequestMapping(value = "/getBadgeVal.do", method = RequestMethod.POST, produces = "application/text; charset=utf8" )
+	public String getBadgeVal(RequestCommand reqParam, HttpSession session,HttpServletRequest request) {
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		
+		Map<String, Object> header= new HashMap<String, Object>();
+		Map<String, Object> body= new HashMap<String, Object>();
+		Map<String, Object> param = reqParam.getParameterMap();
+		header.put("retCode", 0);
+		header.put("errMsg", "");
+		try {
+			
+			String badgeName  = param.get("BADGE_NAME").toString();
+			String badgeVal  = registerService.getBadgeVal(badgeName);
+			
+			if(badgeVal==null) {
+				logger.debug("없는뱃지코드명입니다.");
+				Map<String,Object> tempMap = new HashMap<String,Object>();
+				tempMap.put("BADGE_NAME", badgeName);
+				tempMap.put("BADGE_VAL", "null");
+				resultMap = CommonUtils.createResultMap("400", "fail", badgeVal);
+			}else {
+				logger.debug(badgeName +" : "+ badgeVal);
+				Map<String,Object> tempMap = new HashMap<String,Object>();
+				tempMap.put("BADGE_NAME", badgeName);
+				tempMap.put("BADGE_VAL", badgeVal);
+				resultMap = CommonUtils.createResultMap("200", "success", badgeVal);
+			}
+			
+
+			
+		} catch(Exception e) {
+			logger.error(e.getMessage());
+			e.printStackTrace();
+			header.put("retCode", 404);
+			header.put("errMsg", "error");
+		}
+		resultMap.put("header", header);
+		resultMap.put("body", body);
+		String rst = new Gson().toJson(resultMap);	
+		return rst;
+	}
+	
+	//투표종료하기
+	@RequestMapping(value = "/terminateMyRegist.do", method = RequestMethod.POST, produces = "application/text; charset=utf8" )
+	public String terminateMyRegist(RequestCommand reqParam, HttpSession session,HttpServletRequest request) {
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		
+		Map<String, Object> header= new HashMap<String, Object>();
+		Map<String, Object> body= new HashMap<String, Object>();
+		Map<String, Object> param = reqParam.getParameterMap();
+		header.put("retCode", 0);
+		header.put("errMsg", "");
+		try {
+			
+			int registNo =  Integer.parseInt(param.get("REGIST_NO").toString());
+			
+			Map<String,Object> updateParam = new HashMap<String,Object>();
+			updateParam.put("REGIST_NO",registNo);
+			updateParam.put("UPDATED",System.currentTimeMillis());
+			int cnt = registerService.terminateMyRegist(updateParam);
+			
+
+			
+		} catch(Exception e) {
+			logger.error(e.getMessage());
+			e.printStackTrace();
+			header.put("retCode", 404);
+			header.put("errMsg", "error");
+		}
+		resultMap.put("header", header);
+		resultMap.put("body", body);
+		String rst = new Gson().toJson(resultMap);	
+		return rst;
+	}
 }

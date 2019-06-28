@@ -374,7 +374,7 @@ var api =
 				},
 				{
 					"name": "투표하기",
-					"label": "warning", 	//success, primary, danger, warning
+					"label": "success", 	//success, primary, danger, warning
 					"desc": "/rest/voteRegist.do",
 					"progress":{ 
 						"rate":"100",
@@ -431,6 +431,74 @@ var api =
 					"info": {
 						"url": "/rest/getMyResult.do",
 						"reqParam": [
+						],
+						"respParam": [
+						]
+					},
+					"sample": {
+						"desc": "",
+						"resp": '{"retCode": 0,"errMsg": "","retBody": ""}'
+					}
+				},
+				{
+					"name": "투표종료하기(사용자)",
+					"label": "success", 	//success, primary, danger, warning
+					"desc": "/rest/terminateMyRegist.do",
+					"progress":{ 
+						"rate":"100",
+						"desc":""
+					},
+					"info": {
+						"url": "/rest/terminateMyRegist.do",
+						"reqParam": [
+							{
+								"name":"REGIST_NO", "type":"int", "req":"yes", "value":"",
+								"desc":"TB_REGIST PK"
+							},
+						],
+						"respParam": [
+						]
+					},
+					"sample": {
+						"desc": "",
+						"resp": '{"retCode": 0,"errMsg": "","retBody": ""}'
+					}
+				},
+				{
+					"name": "뱃지만들기",
+					"label": "success", 	//success, primary, danger, warning
+					"desc": "/rest/insertBadge.do",
+					"progress":{ 
+						"rate":"100",
+						"desc":""
+					},
+					"info": {
+						"url": "/rest/insertBadge.do",
+						"reqParam": [
+						],
+						"respParam": [
+						]
+					},
+					"sample": {
+						"desc": "",
+						"resp": '{"retCode": 0,"errMsg": "","retBody": ""}'
+					}
+				},
+				{
+					"name": "뱃지검색",
+					"label": "success", 	//success, primary, danger, warning
+					"desc": "/rest/getBadgeVal.do",
+					"progress":{ 
+						"rate":"100",
+						"desc":""
+					},
+					"info": {
+						"url": "/rest/getBadgeVal.do",
+						"reqParam": [
+							{
+								"name":"BADGE_NAME", "type":"int", "req":"yes", "value":"2AM",
+								"desc":"뱃지코드명"
+							},
 						],
 						"respParam": [
 						]

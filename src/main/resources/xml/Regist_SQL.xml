@@ -111,4 +111,16 @@ select * from TB_REGIST where REGIST_USER = #{value}
 select count(VOTE_WHO) from TB_VOTE where REGIST_NO=#{value}
 </select>
 
+<insert id="insertBadge" parameterType="HashMap">
+insert into TB_BADGE (BADGE_NAME,BADGE_VAL) values (#{BADGE_NAME},#{BADGE_VAL});
+</insert>
+
+<select id="getBadgeVal" parameterType="string" resultType="string">
+select BADGE_VAL from TB_BADGE where BADGE_NAME= #{value}
+</select>
+
+<update id="terminateMyRegist" parameterType="HashMap">
+update TB_REGIST set VOTE_END_YN='Y',UPDATED=#{UPDATED} where REGIST_NO=#{REGIST_NO};
+</update>
+
 </mapper>
