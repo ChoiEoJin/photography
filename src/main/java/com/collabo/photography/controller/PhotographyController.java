@@ -330,7 +330,7 @@ public class PhotographyController {
 			}			
 			logger.debug(resultDesc);
 
-			resultMap= CommonUtils.createResultMap("200", resultDesc,"");	
+			resultMap= CommonUtils.createResultMap(resultCode, resultDesc,"");	
 		} catch(Exception e) {
 			String messageFlag= "";
 			String message="";
@@ -395,7 +395,6 @@ public class PhotographyController {
 					  resultDesc="이메일이 일치하지 않습니다";
 					  
 				  }else {//4.있으면 토큰생성한다. 
-					  logger.debug("로그인성공");
 					  
 					  //뱃지만들기(2019.6.26)
 					  int age = CommonUtils.calAge(rstMap.get("USER_BIRTH").toString());
@@ -409,7 +408,7 @@ public class PhotographyController {
 					  jwtParamMap.put("user_badge", badge);//jwt에 뱃지넣기(2019.6.26)
 					  
 					  resultCode= "success";
-					  resultDesc="기기변경후 아직 이메일없음";
+					  resultDesc="로그인성공!";
 					  Authorization = jwtUtil.createJWT(jwtParamMap);
 					  
 				  }
@@ -754,7 +753,7 @@ public class PhotographyController {
 			}
 			Map<String,Object> tempMap = new HashMap<String,Object>();
 			tempMap.put("unauthProfileList", unauthProfileList);
-			resultMap= CommonUtils.createResultMap("success", "성공", tempMap);	
+			resultMap= CommonUtils.createResultMap("success", "미승인리스트 가져오기 성공", tempMap);	
 			
 		} catch(Exception e) {
 			logger.error(e.getMessage());
@@ -784,7 +783,7 @@ public class PhotographyController {
 			updateRegistAuthChkParamMap.put("registAuthChk", registAuthChk);
 			registerService.updateRegistAuthChk(updateRegistAuthChkParamMap);	
 			//업데이트 잘됬는지 안됬는지 에따라서 캐치문 작업필요
-			resultMap=CommonUtils.createResultMap("success", "성공", "");
+			resultMap=CommonUtils.createResultMap("success", "검열처리 완료", "");
 			
 		} catch(Exception e) {
 			logger.error(e.getMessage());
@@ -986,7 +985,7 @@ public class PhotographyController {
 			tempMap.put("profileList", profileList);
 			
 			resultMap=CommonUtils.createResultMap("success", "성공", tempMap);
-			body.put("resultMap",resultMap);
+			//body.put("resultMap",resultMap);
 			
 		} catch(Exception e) {
 			logger.error(e.getMessage());
@@ -996,7 +995,7 @@ public class PhotographyController {
 		}
 		result.put("header", header);
 		result.put("body", body);
-		String rst = new Gson().toJson(result);	
+		String rst = new Gson().toJson(resultMap);	
 		return rst;
 	}
 	
