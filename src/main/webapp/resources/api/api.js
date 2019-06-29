@@ -19,23 +19,23 @@ var api =
 						"url": "/rest/userRegist.do",
 						"reqParam": [
 							{
-								"name":"uuid", "type":"string", "req":"yes", "value":"chldjwlsuuid",
+								"name":"UUID", "type":"string", "req":"yes", "value":"chldjwlsuuid",
 								"desc":"기기ID"
 							},
 							{
-								"name":"email", "type":"string", "req":"yes", "value":"yms3684@naver.com",
+								"name":"USER_EMAIL", "type":"string", "req":"yes", "value":"yms3684@naver.com",
 								"desc":"이메일"
 							},
 							{
-								"name":"gender", "type":"string", "req":"yes", "value":"M",
+								"name":"USER_GENDER", "type":"string", "req":"yes", "value":"M",
 								"desc":"성별"
 							},
 							{
-								"name":"birth", "type":"string", "req":"yes", "value":"1992/09/17",
+								"name":"USER_BIRTH", "type":"string", "req":"yes", "value":"1992/09/17",
 								"desc":"생년월일"
 							},
 							{
-								"name":"grade", "type":"string", "req":"yes", "value":"3",
+								"name":"GRADE", "type":"string", "req":"yes", "value":"3",
 								"desc":"등급"
 							},
 						],
@@ -59,11 +59,11 @@ var api =
 						"url": "/rest/emailDuplicatedCheck.do",
 						"reqParam": [
 							{
-								"name":"uuid", "type":"string", "req":"yes", "value":"chldjwlsuuid",
+								"name":"UUID", "type":"string", "req":"yes", "value":"chldjwlsuuid",
 								"desc":"기기ID"
 							},
 							{
-								"name":"email", "type":"string", "req":"yes", "value":"yms3684@naver.com",
+								"name":"USER_EMAIL", "type":"string", "req":"yes", "value":"yms3684@naver.com",
 								"desc":"이메일"
 							}
 						],
@@ -91,11 +91,11 @@ var api =
 						"url": "/rest/emailAuthRequest.do",
 						"reqParam": [
 							{
-								"name":"uuid", "type":"string", "req":"yes", "value":"chldjwlsuuid",
+								"name":"UUID", "type":"string", "req":"yes", "value":"chldjwlsuuid",
 								"desc":"기기ID"
 							},
 							{
-								"name":"email", "type":"string", "req":"yes", "value":"yms3684@naver.com",
+								"name":"USER_EMAIL", "type":"string", "req":"yes", "value":"yms3684@naver.com",
 								"desc":"이메일"
 							}
 						],
@@ -123,15 +123,15 @@ var api =
 						"url": "/rest/emailAuth.do",
 						"reqParam": [
 							{
-								"name":"uuid", "type":"string", "req":"yes", "value":"chldjwlsuuid",
+								"name":"UUID", "type":"string", "req":"yes", "value":"chldjwlsuuid",
 								"desc":"기기ID"
 							},
 							{
-								"name":"email", "type":"string", "req":"yes", "value":"yms3684@naver.com",
+								"name":"USER_EMAIL", "type":"string", "req":"yes", "value":"yms3684@naver.com",
 								"desc":"이메일"
 							},
 							{
-								"name":"authNum", "type":"string", "req":"yes", "value":"",
+								"name":"AUTH_NUM", "type":"string", "req":"yes", "value":"",
 								"desc":"인증번호"
 							}
 						],
@@ -159,11 +159,11 @@ var api =
 						"url": "/rest/emailLogin.do",
 						"reqParam": [
 							{
-								"name":"uuid", "type":"string", "req":"yes", "value":"chldjwlsuuid",
+								"name":"UUID", "type":"string", "req":"yes", "value":"chldjwlsuuid",
 								"desc":"기기명"
 							},
 							{
-								"name":"email", "type":"string", "req":"yes", "value":"yms3684@naver.com",
+								"name":"USER_EMAIL", "type":"string", "req":"yes", "value":"yms3684@naver.com",
 								"desc":"이메일"
 							},
 						],

@@ -74,11 +74,11 @@ public class PhotographyController {
 		try {
 			logger.debug("회원가입 들어옴");
 			
-			String uuid = param.get("uuid").toString().trim();
-			String email = param.get("email").toString().trim();
-			String gender = param.get("gender").toString().trim();
-			String birth= param.get("birth").toString().trim();
-			String grade = param.get("grade").toString().trim();
+			String uuid = param.get("UUID").toString().trim();
+			String email = param.get("USER_EMAIL").toString().trim();
+			String gender = param.get("USER_GENDER").toString().trim();
+			String birth= param.get("USER_BIRTH").toString().trim();
+			String grade = param.get("GRADE").toString().trim();
 			String USER_NO ="";
 			logger.debug("uuid : "+ uuid);
 			logger.debug("email : "+ email);
@@ -144,8 +144,8 @@ public class PhotographyController {
 			
 			String email="";
 			String uuid="";
-			uuid = param.get("uuid").toString().trim();
-			email = param.get("email").toString().trim();
+			uuid = param.get("UUID").toString().trim();
+			email = param.get("USER_EMAIL").toString().trim();
 			logger.debug("uuid : "+uuid);
 			logger.debug("email : "+email);
 			
@@ -210,8 +210,8 @@ public class PhotographyController {
 			String uuid = "";
 			String email="";
 			
-			uuid= param.get("uuid").toString();
-			email= param.get("email").toString();
+			uuid= param.get("UUID").toString();
+			email= param.get("USER_EMAIL").toString();
 			
 			logger.debug("uuid : "+uuid);
 			logger.debug("email : "+email);
@@ -294,9 +294,9 @@ public class PhotographyController {
 		String resultDesc  ="";	
 
 		try {
-			String uuid = param.get("uuid").toString();
-			String email = param.get("email").toString();
-			String p_authNum = param.get("authNum").toString();
+			String uuid = param.get("UUID").toString();
+			String email = param.get("USER_EMAIL").toString();
+			String p_authNum = param.get("AUTH_NUM").toString();
 			
 			
 			//1.UUID랑 USER_EMAIL 을 이용하여 AUTH_NUM,UPDATED,AUTH_EXPIRED를 가져온다.
@@ -363,8 +363,8 @@ public class PhotographyController {
 		String Authorization="";
 		try {					
 			//1.uuid,email 받는다.
-			  Object p_uuid = param.get("uuid").toString();
-			  Object p_email = param.get("email").toString();
+			  Object p_uuid = param.get("UUID").toString();
+			  Object p_email = param.get("USER_EMAIL").toString();
 			  if(p_uuid==null || p_email==null) throw new Exception("501");
 			 
 			  //2.uuid tb_user를 조회하여, 있는지확인한다.
