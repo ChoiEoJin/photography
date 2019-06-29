@@ -69,7 +69,7 @@ public class PhotographyController {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		Map<String, Object> param = reqParam.getParameterMap();
 		String resultCode ="0";
-		String resultstatus  ="";
+		String resultDesc  ="";
 		
 		try {
 			logger.debug("회원가입 들어옴");
@@ -102,12 +102,8 @@ public class PhotographyController {
 			USER_NO = regUserMap.get("USER_NO").toString();
 			logger.debug("USER_NO : "+ USER_NO);
 			regUserMap.put("USER_NO", USER_NO);		
-			resultMap= CommonUtils.createResultMap("200", "success", regUserMap);
-			
-			
-			
-			
-			
+			resultDesc = "회원 가입 성공!";
+			resultMap= CommonUtils.createResultMap("success",resultDesc, regUserMap);
 			
 		} catch(Exception e) {
 			String messageFlag= "";
@@ -122,7 +118,7 @@ public class PhotographyController {
 			}
 			
 			e.printStackTrace();
-			resultMap= CommonUtils.createResultMap(resultCode, resultstatus, message);
+			resultMap= CommonUtils.createResultMap(resultCode, resultDesc, message);
 			
 		}
 	
@@ -138,9 +134,11 @@ public class PhotographyController {
 	public String emailDuplicatedCheck(RequestCommand reqParam, HttpSession session) {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		Map<String, Object> param = reqParam.getParameterMap();
+		
 		String resultCode ="0";
-		String resultstatus  ="";
-		String returnFlag ="";
+		String resultDesc ="";
+
+		
 		
 		try {
 			
@@ -156,23 +154,28 @@ public class PhotographyController {
 			emailCheckMap.put("email", email);
 			Map<String,Object> userInfoMap = userService.getUUID_By_EMAIL(emailCheckMap);
 			
-			String checkFlag = "";
+			
 			if(userInfoMap.isEmpty()) {
-				logger.debug("601 : 이메일없음");
-				checkFlag="601";				
+				resultDesc="해당 이메일을 사용중인 기기없음";
+				resultCode="success";		
 			}else {
 				String rstUUID =  userInfoMap.get("UUID").toString();
 				if(uuid.equals(rstUUID)==false) {
-					logger.debug("다른기기에서 사용중입니다.");
 					
-					checkFlag="602";
+					resultDesc="해당 이메일을 다른 기기에서 사용중입니다.";
+					resultCode="eCheck_01";
+					
 				}else {				
-					logger.debug("현재기기에서  사용중입니다.");
-					checkFlag="603";
+					
+					resultDesc="해당 이메일을 현재기기에서  사용중입니다.";
+					resultCode="eCheck_02";
+					
 				}
 			}
-
-			resultMap= CommonUtils.createResultMap("200", "success", checkFlag);	
+			logger.debug(resultDesc);
+			
+			resultMap= CommonUtils.createResultMap(resultCode, resultDesc, "");
+			
 		} catch(Exception e) {
 			String messageFlag= "";
 			String message="";
@@ -186,7 +189,7 @@ public class PhotographyController {
 			}
 			
 			e.printStackTrace();
-			resultMap= CommonUtils.createResultMap(resultCode, resultstatus, message);
+			resultMap= CommonUtils.createResultMap(resultCode, resultDesc, message);
 			
 		}
 	
@@ -202,7 +205,7 @@ public class PhotographyController {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		Map<String, Object> param = reqParam.getParameterMap();
 		String resultCode ="0";
-		String resultstatus  ="";		
+		String resultDesc  ="";		
 		try {
 			String uuid = "";
 			String email="";
@@ -262,7 +265,7 @@ public class PhotographyController {
 			//3.이메일전송
 			SendMail.sendAuthMail(email, "[인증메일]", "이메일인증번호입니다 : "+tempKey);
 			
-			resultMap= CommonUtils.createResultMap("200", "success", "");	
+			resultMap= CommonUtils.createResultMap("success", "이메일 전송", tempKey);
 		} catch(Exception e) {
 			String messageFlag= "";
 			String message="";
@@ -275,7 +278,7 @@ public class PhotographyController {
 				
 			}		
 			e.printStackTrace();
-			resultMap= CommonUtils.createResultMap(resultCode, resultstatus, message);	
+			resultMap= CommonUtils.createResultMap(resultCode, resultDesc, message);	
 		}
 	
 		String rst = new Gson().toJson(resultMap);	
@@ -288,12 +291,13 @@ public class PhotographyController {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		Map<String, Object> param = reqParam.getParameterMap();
 		String resultCode ="0";
-		String resultstatus  ="";		
+		String resultDesc  ="";	
+
 		try {
 			String uuid = param.get("uuid").toString();
 			String email = param.get("email").toString();
 			String p_authNum = param.get("authNum").toString();
-			String rstFlag="";
+			
 			
 			//1.UUID랑 USER_EMAIL 을 이용하여 AUTH_NUM,UPDATED,AUTH_EXPIRED를 가져온다.
 			Map<String,Object> authParamMap = new HashMap<>();
@@ -305,21 +309,28 @@ public class PhotographyController {
 			String db_AuthNum = authRstMap.get("AUTH_NUM").toString();
 			
 			if(p_authNum.equals(db_AuthNum)==false) {
-				logger.debug("인증번호불일치");
-				rstFlag = "611";
+				
+				resultCode = "eAuth_01";
+				resultDesc="인증번호불일치";
+				
 			}else {
 				long authExpired = Long.parseLong(authRstMap.get("AUTH_EXPIRED").toString());
 				long curTimeMill = System.currentTimeMillis();
 				
-				if(authExpired<curTimeMill) {
-					logger.debug("유효기간만료");
-					rstFlag = "612";
+				if(authExpired<curTimeMill) {					
+					resultCode = "eAuth_02";
+					resultDesc="유효기간만료";
+					
 				}else {
-					logger.debug("인증성공");
-					rstFlag = "610";
+					
+					resultCode = "success";
+					resultDesc="인증성공";
+					
 				}
 			}			
-			resultMap= CommonUtils.createResultMap("200", "success",rstFlag);	
+			logger.debug(resultDesc);
+
+			resultMap= CommonUtils.createResultMap("200", resultDesc,"");	
 		} catch(Exception e) {
 			String messageFlag= "";
 			String message="";
@@ -332,7 +343,7 @@ public class PhotographyController {
 				
 			}		
 			e.printStackTrace();
-			resultMap= CommonUtils.createResultMap(resultCode, resultstatus, message);	
+			resultMap= CommonUtils.createResultMap(resultCode, resultDesc, message);	
 		}
 	
 		String rst = new Gson().toJson(resultMap);	
@@ -346,14 +357,11 @@ public class PhotographyController {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		Map<String, Object> param = reqParam.getParameterMap();
 		String resultCode ="0";
-		String resultstatus  ="";
-		String rstFlag = "";
+		String resultDesc  ="";
+
 		Map<String,Object> tempMap = new HashMap<>();
 		String Authorization="";
-		try {
-			
-			
-			
+		try {					
 			//1.uuid,email 받는다.
 			  Object p_uuid = param.get("uuid").toString();
 			  Object p_email = param.get("email").toString();
@@ -364,8 +372,9 @@ public class PhotographyController {
 			  
 			//3.없으면  예외처리한다.
 			  if(rstMap==null) {
-				  logger.debug("해당기기로 등록된 유저정보없음");
-				  rstFlag="UNREGISTERD_01";
+
+				  resultCode="eLogin_01";
+				  resultDesc = "해당기기로 등록된 유저정보없음";
 			  }else {
 				  
 				  int rstUserNo = Integer.parseInt(rstMap.get("USER_NO").toString());
@@ -375,13 +384,15 @@ public class PhotographyController {
 //				  String rstUserBirth = rstMap.get("USER_BIRTH").toString();//date
 //				  int rstUserGrade = Integer.parseInt(rstMap.get("USER_GRADE").toString());
 				  
-				  if(rstEmail.trim().equals("")) {
-					  logger.debug("기기변경후 아직 이메일없음");
-					  rstFlag="UNREGISTERD_02";
+				  if(rstEmail.trim().equals("")) {  
+					  resultCode="eLogin_02";
+					  resultDesc="기기변경후 아직 이메일없음";
+
 					  
 				  }else if(p_email.equals(rstEmail)==false) {
-					  logger.debug("이메일이 일치하지 않습니다");
-					  rstFlag="MISMATCH_02";
+					  
+					  resultCode="eLogin_03";
+					  resultDesc="이메일이 일치하지 않습니다";
 					  
 				  }else {//4.있으면 토큰생성한다. 
 					  logger.debug("로그인성공");
@@ -397,20 +408,21 @@ public class PhotographyController {
 					  jwtParamMap.put("user_email", rstEmail);
 					  jwtParamMap.put("user_badge", badge);//jwt에 뱃지넣기(2019.6.26)
 					  
-					  rstFlag= "200";
+					  resultCode= "success";
+					  resultDesc="기기변경후 아직 이메일없음";
 					  Authorization = jwtUtil.createJWT(jwtParamMap);
 					  
 				  }
 				  
 			  }
 			
-			  
-			tempMap.put("rstFlag", rstFlag);
+			logger.debug(resultDesc);  
+
 			tempMap.put("Authorization", Authorization);
 			
-			resultMap= CommonUtils.createResultMap("200", "success",tempMap);	
+			resultMap= CommonUtils.createResultMap(resultCode, resultDesc,tempMap);	
 			
-		} catch(Exception e) {
+		} catch(Exception e) { //서버에러
 			String messageFlag= "";
 			String message="";
 			messageFlag= e.getMessage();
@@ -422,7 +434,7 @@ public class PhotographyController {
 				
 			}		
 			e.printStackTrace();
-			resultMap= CommonUtils.createResultMap(resultCode, resultstatus, message);	
+			resultMap= CommonUtils.createResultMap(resultCode, resultDesc, message);	
 		}
 	
 		String rst = new Gson().toJson(resultMap);	
@@ -436,20 +448,11 @@ public class PhotographyController {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		Map<String, Object> param = reqParam.getParameterMap();
 		String resultCode ="0";
-		String resultstatus  ="";
+		String resultDesc  ="";
 		
 		try {
 			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
+
 			
 			
 			
@@ -468,7 +471,7 @@ public class PhotographyController {
 			}
 			
 			e.printStackTrace();
-			resultMap= CommonUtils.createResultMap(resultCode, resultstatus, message);
+			resultMap= CommonUtils.createResultMap(resultCode, resultDesc, message);
 			
 		}
 	
@@ -486,7 +489,7 @@ public class PhotographyController {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		Map<String, Object> param = reqParam.getParameterMap();
 		String resultCode ="0";
-		String resultstatus  ="";
+		String resultDesc  ="";
 				
 		logger.debug("사진등록옵션가져오기 : 연령대,성별 ");
 		try {
@@ -499,7 +502,7 @@ public class PhotographyController {
 			tempMap.put("ageCodeInfo", ageCodeInfo);
 			tempMap.put("genderCodeInfo", genderCodeInfo);
 			
-			resultMap= CommonUtils.createResultMap("200", "success", tempMap);	
+			resultMap= CommonUtils.createResultMap("success", "옵션가져오기 성공", tempMap);	
 
 		} catch(Exception e) {
 			String messageFlag= "";
@@ -514,7 +517,7 @@ public class PhotographyController {
 			}
 			
 			e.printStackTrace();
-			resultMap= CommonUtils.createResultMap(resultCode, resultstatus, message);			
+			resultMap= CommonUtils.createResultMap(resultCode, resultDesc, message);			
 		}
 		String rst = new Gson().toJson(resultMap);
 		return rst;
@@ -529,7 +532,7 @@ public class PhotographyController {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		Map<String, Object> param = reqParam.getParameterMap();
 		String resultCode ="0";
-		String resultstatus  ="";
+		String resultDesc  ="";
 				
 		logger.debug("사진등록도착!");
 		try {
@@ -620,7 +623,7 @@ public class PhotographyController {
 			
 			
 			
-			resultMap= CommonUtils.createResultMap("200", "success", "");	
+			resultMap= CommonUtils.createResultMap("success", "프로필 등록 요청성공", "");	
 
 		} catch(Exception e) {
 			String messageFlag= "";
@@ -635,7 +638,7 @@ public class PhotographyController {
 			}
 			
 			e.printStackTrace();
-			resultMap= CommonUtils.createResultMap(resultCode, resultstatus, message);
+			resultMap= CommonUtils.createResultMap(resultCode, resultDesc, message);
 			
 		}
 	
@@ -655,7 +658,7 @@ public class PhotographyController {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		Map<String, Object> param = reqParam.getParameterMap();
 		String resultCode ="0";
-		String resultstatus  ="";
+		String resultDesc  ="";
 			logger.debug("getMyResult");
 		try {
 			List<Map<String,Object>> list = new ArrayList<>();
@@ -664,7 +667,7 @@ public class PhotographyController {
 			logger.debug("list.size()"+list.size());
 			logger.debug("list.isEmpty() : "+list.isEmpty());
 			
-			resultMap= CommonUtils.createResultMap("200", "success", list);	
+			resultMap= CommonUtils.createResultMap("success", "success", list);	
 		} catch(Exception e) {
 			String messageFlag= "";
 			String message="";
@@ -678,7 +681,7 @@ public class PhotographyController {
 			}
 			
 			e.printStackTrace();
-			resultMap= CommonUtils.createResultMap(resultCode, resultstatus, message);
+			resultMap= CommonUtils.createResultMap(resultCode, resultDesc, message);
 			
 		}
 	
@@ -729,15 +732,14 @@ public class PhotographyController {
 		return rst;
 	}
 		
-	//미승인리스트가져오기(관리자)
+	//미승인리스트가져오기(관리자)(인터셉터 부분에서 관리자인지 아닌지 확인하는코드 추가필요함)
 	@RequestMapping(value = "/unauthProfileList.do", method = RequestMethod.POST, produces = "application/text; charset=utf8" )
 	public String unauthProfileList(RequestCommand reqParam, HttpSession session,HttpServletRequest request) {
-		Map<String, Object> result = new HashMap<String, Object>();
-		Map<String, Object> header= new HashMap<String, Object>();
-		Map<String, Object> body= new HashMap<String, Object>();
-		Map<String, Object> param = reqParam.getParameterMap();
-		header.put("retCode", 0);
-		header.put("errMsg", "");
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+//		Map<String, Object> header= new HashMap<String, Object>();
+//		Map<String, Object> body= new HashMap<String, Object>();
+//		Map<String, Object> param = reqParam.getParameterMap();
+
 		try {			
 			List<Map<String,Object>> unauthProfileList  = registerService.getUnauthProfileList();
 			//복호화 
@@ -750,23 +752,25 @@ public class PhotographyController {
 				profileMap.put("REGIST_IMAGE2", decodedImg2);
 				
 			}
-			body.put("unauthProfileList", unauthProfileList);
+			Map<String,Object> tempMap = new HashMap<String,Object>();
+			tempMap.put("unauthProfileList", unauthProfileList);
+			resultMap= CommonUtils.createResultMap("success", "성공", tempMap);	
+			
 		} catch(Exception e) {
 			logger.error(e.getMessage());
 			e.printStackTrace();
-			header.put("retCode", 404);
-			header.put("errMsg", "error");
+//			header.put("retCode", 404);
+//			header.put("errMsg", "error");
 		}
-		result.put("header", header);
-		result.put("body", body);	
-		String rst = new Gson().toJson(result);
+
+		String rst = new Gson().toJson(resultMap);
 		return rst;
 	}
 	
-	//프로필검열하기(관리자)
+	//프로필검열하기(관리자)(인터셉터 부분에서 관리자인지 아닌지 확인하는코드 추가필요함)
 	@RequestMapping(value = "/censorProfile.do", method = RequestMethod.POST, produces = "application/text; charset=utf8" )
 	public String censorProfile(RequestCommand reqParam, HttpSession session,HttpServletRequest request) {
-		Map<String, Object> result = new HashMap<String, Object>();
+		Map<String, Object> resultMap = new HashMap<String, Object>();
 		Map<String, Object> header= new HashMap<String, Object>();
 		Map<String, Object> body= new HashMap<String, Object>();
 		Map<String, Object> param = reqParam.getParameterMap();
@@ -779,21 +783,25 @@ public class PhotographyController {
 			updateRegistAuthChkParamMap.put("registerNo", registerNo);
 			updateRegistAuthChkParamMap.put("registAuthChk", registAuthChk);
 			registerService.updateRegistAuthChk(updateRegistAuthChkParamMap);	
+			//업데이트 잘됬는지 안됬는지 에따라서 캐치문 작업필요
+			resultMap=CommonUtils.createResultMap("success", "성공", "");
+			
 		} catch(Exception e) {
 			logger.error(e.getMessage());
 			e.printStackTrace();
 			header.put("retCode", 404);
 			header.put("errMsg", "error");
 		}
-		result.put("header", header);
-		result.put("body", body);
-		String rst = new Gson().toJson(result);	
+//		result.put("header", header);
+//		result.put("body", body);
+		String rst = new Gson().toJson(resultMap);	
 		return rst;
 	}
+	
 	//상세보기
 	@RequestMapping(value = "/detailProfile.do", method = RequestMethod.POST, produces = "application/text; charset=utf8" )
 	public String detailProfile(RequestCommand reqParam, HttpSession session,HttpServletRequest request) {
-		Map<String, Object> result = new HashMap<String, Object>();
+		Map<String, Object> resultMap = new HashMap<String, Object>();
 		Map<String, Object> header= new HashMap<String, Object>();
 		Map<String, Object> body= new HashMap<String, Object>();
 		Map<String, Object> param = reqParam.getParameterMap();
@@ -807,22 +815,27 @@ public class PhotographyController {
 			body.put("profileInfo", profileInfo);
 			
 			
+			Map<String,Object> tempMap =  new HashMap<String,Object>();
+			tempMap.put("profileInfo", profileInfo);
+			resultMap=CommonUtils.createResultMap("success", "성공", tempMap);
+			
 		} catch(Exception e) {
 			logger.error(e.getMessage());
 			e.printStackTrace();
-			header.put("retCode", 404);
-			header.put("errMsg", "error");
+//			header.put("retCode", 404);
+//			header.put("errMsg", "error");
 		}
-		result.put("header", header);
-		result.put("body", body);
-		String rst = new Gson().toJson(result);	
+//		result.put("header", header);
+//		result.put("body", body);
+		String rst = new Gson().toJson(resultMap);	
 		return rst;
 	}
 	
 	//투표하기
 	@RequestMapping(value = "/voteRegist.do", method = RequestMethod.POST, produces = "application/text; charset=utf8" )
 	public String voteRegist(RequestCommand reqParam, HttpSession session,HttpServletRequest request) {
-		Map<String, Object> result = new HashMap<String, Object>();
+		//Map<String, Object> result = new HashMap<String, Object>();
+		Map<String, Object> resultMap = new HashMap<String, Object>();
 		Map<String, Object> header= new HashMap<String, Object>();
 		Map<String, Object> body= new HashMap<String, Object>();
 		Map<String, Object> param = reqParam.getParameterMap();
@@ -847,6 +860,9 @@ public class PhotographyController {
 			voteParam.put("created", System.currentTimeMillis());//13
 			voteParam.put("updated", System.currentTimeMillis());//13
 			registerService.registVOTE(voteParam);
+			//DB작업 잘됬는지 안됬는지 캐치부분 
+
+			resultMap=CommonUtils.createResultMap("success", "성공", "");
 
 		} catch(Exception e) {
 			logger.error(e.getMessage());
@@ -854,9 +870,9 @@ public class PhotographyController {
 			header.put("retCode", 404);
 			header.put("errMsg", "error");
 		}
-		result.put("header", header);
-		result.put("body", body);
-		String rst = new Gson().toJson(result);	
+//		result.put("header", header);
+//		result.put("body", body);
+		String rst = new Gson().toJson(resultMap);	
 		return rst;
 	}
 	
@@ -868,8 +884,8 @@ public class PhotographyController {
 		Map<String, Object> body= new HashMap<String, Object>();
 		Map<String, Object> param = reqParam.getParameterMap();
 		Map<String, Object> resultMap = new HashMap<String,Object>();
-		header.put("retCode", 0);
-		header.put("errMsg", "");
+//		header.put("retCode", 0);
+//		header.put("errMsg", "");
 		try {
 			
 			//1.로그인유저정보
@@ -967,17 +983,16 @@ public class PhotographyController {
 						
 			
 			Map<String,Object> tempMap = new HashMap<String,Object>();
-			tempMap.put("rstFlag", "200");
 			tempMap.put("profileList", profileList);
 			
-			resultMap=CommonUtils.createResultMap("200", "success", tempMap);
+			resultMap=CommonUtils.createResultMap("success", "성공", tempMap);
 			body.put("resultMap",resultMap);
 			
 		} catch(Exception e) {
 			logger.error(e.getMessage());
 			e.printStackTrace();
-			header.put("retCode", 404);
-			header.put("errMsg", "error");
+//			header.put("retCode", 404);
+//			header.put("errMsg", "error");
 		}
 		result.put("header", header);
 		result.put("body", body);
@@ -1065,7 +1080,7 @@ public class PhotographyController {
 				Map<String,Object> tempMap = new HashMap<String,Object>();
 				tempMap.put("deadLineList", deadLineList);
 				tempMap.put("beingVotedList", beingVotedList);
-				resultMap= CommonUtils.createResultMap("200", "success", tempMap);
+				resultMap= CommonUtils.createResultMap("success", "success", tempMap);
 			}//있는경우
 			
 			
@@ -1075,8 +1090,8 @@ public class PhotographyController {
 			header.put("retCode", 404);
 			header.put("errMsg", "error");
 		}
-		resultMap.put("header", header);
-		resultMap.put("body", body);
+//		resultMap.put("header", header);
+//		resultMap.put("body", body);
 		String rst = new Gson().toJson(resultMap);	
 		return rst;
 	}	
@@ -1208,11 +1223,11 @@ public class PhotographyController {
 		} catch(Exception e) {
 			logger.error(e.getMessage());
 			e.printStackTrace();
-			header.put("retCode", 404);
-			header.put("errMsg", "error");
+//			header.put("retCode", 404);
+//			header.put("errMsg", "error");
 		}
-		resultMap.put("header", header);
-		resultMap.put("body", body);
+//		resultMap.put("header", header);
+//		resultMap.put("body", body);
 		String rst = new Gson().toJson(resultMap);	
 		return rst;
 	}
@@ -1237,13 +1252,13 @@ public class PhotographyController {
 				Map<String,Object> tempMap = new HashMap<String,Object>();
 				tempMap.put("BADGE_NAME", badgeName);
 				tempMap.put("BADGE_VAL", "null");
-				resultMap = CommonUtils.createResultMap("400", "fail", badgeVal);
+				resultMap = CommonUtils.createResultMap("badge_01", "없는 뱃지코드명입니다.", badgeVal);
 			}else {
 				logger.debug(badgeName +" : "+ badgeVal);
 				Map<String,Object> tempMap = new HashMap<String,Object>();
 				tempMap.put("BADGE_NAME", badgeName);
 				tempMap.put("BADGE_VAL", badgeVal);
-				resultMap = CommonUtils.createResultMap("200", "success", badgeVal);
+				resultMap = CommonUtils.createResultMap("success", "success", badgeVal);
 			}
 			
 
@@ -1280,6 +1295,7 @@ public class PhotographyController {
 			int cnt = registerService.terminateMyRegist(updateParam);
 			
 
+			resultMap = CommonUtils.createResultMap("success", "success", "");
 			
 		} catch(Exception e) {
 			logger.error(e.getMessage());
